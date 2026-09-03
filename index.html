@@ -9,14 +9,6 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2563eb">
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js')
-        .then(() => console.log('Service Worker Registered!'))
-        .catch((err) => console.log('SW Error:', err));
-    }
-  </script>
-
   <style>
     :root{
       --bg: #f7fbff;
@@ -600,7 +592,7 @@
   <input type="file" id="restoreFile" accept="application/json,.json" style="display:none;" />
   <div class="export-stage" id="exportStage" aria-hidden="true"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" crossorigin="anonymous"></script>
+  <script src="./html2canvas.min.js"></script>
 
   <script>
     'use strict';
@@ -1436,6 +1428,13 @@
     }
 
     init();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/class-manager/sw.js')
+        .then(() => console.log('Service Worker Registered!'))
+        .catch((err) => console.log('SW Error:', err));
+    }
   </script>
 </body>
 
