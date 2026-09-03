@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#2d7cff" />
+  <title>فعالیت کلاسی زبان‌آموزان</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563eb">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('Service Worker Registered!'))
+        .catch((err) => console.log('SW Error:', err));
+    }
+  </script>
+
+  <style>
+    :root{
+      --bg: #f7fbff;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #5b6b82;
+      --line: rgba(15,23,42,0.10);
+
+      --blue: #2d7cff;
+      --blue2:#1aa6ff;
+      --pink:#ff4da6;
+      --pink2:#ff7bc3;
+
+      --shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+      --r: 16px;
+      --r2: 12px;
+      --focus: 0 0 0 4px rgba(45,124,255,0.18);
+
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Sans", Arial, sans-serif;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(900px 600px at 80% -10%, rgba(255,77,166,0.18), transparent 60%),
+        radial-gradient(900px 600px at 10% -10%, rgba(45,124,255,0.18), transparent 60%),
+        var(--bg);
+    }
+
+    /* Mobile-first layout */
+    .app{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 12px 12px calc(76px + env(safe-area-inset-bottom));
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 6px 2px 10px;
+    }
+    .brand{
+      display:flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: -0.2px;
+    }
+    .brand .sub{
+      margin:0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .pill{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 6px 16px rgba(15,23,42,0.06);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      user-select:none;
+    }
+    .dot{
+      width:8px; height:8px;
+      border-radius: 999px;
+      background: var(--blue);
+      box-shadow: 0 0 0 4px rgba(45,124,255,0.14);
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .card .hd h2{
+      margin:0;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .card .bd{ padding: 12px; }
+
+    .row{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items:center;
+    }
+    .row > * { flex: 1 1 160px; }
+    .row .w100{ flex: 1 1 100%; }
+    .row .tiny{ flex: 1 1 110px; }
+
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+
+    input, select, textarea{
+      width:100%;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,0.14);
+      background: #fff;
+      outline: none;
+      color: var(--text);
+      font-size: 14px;
+    }
+    input:focus, select:focus, textarea:focus{
+      box-shadow: var(--focus);
+      border-color: rgba(45,124,255,0.55);
+    }
+    textarea{ min-height: 44px; resize: vertical; }
+
+    .btn{
+      appearance:none;
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 12px;
+      min-height: 46px;
+      font-weight: 900;
+      cursor:pointer;
+      user-select:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      color: #fff;
+    }
+    .btn.pink{
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      color: #fff;
+    }
+    .btn.ghost{
+      background: #fff;
+      border: 1px solid rgba(15,23,42,0.14);
+      color: var(--text);
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn:disabled{ opacity: 0.55; cursor:not-allowed; }
+
+    /* Tabs (multi-page inside one HTML) */
+    .tabs{
+      display:flex;
+      gap: 8px;
+      padding: 10px 0 12px;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab{
+      flex: 0 0 auto;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.14);
+      background: #fff;
+      padding: 10px 12px;
+      font-weight: 900;
+      font-size: 13px;
+      color: var(--muted);
+      cursor:pointer;
+      user-select:none;
+      white-space: nowrap;
+    }
+    .tab.active{
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--blue), var(--pink));
+    }
+
+    .page{ display:none; }
+    .page.active{ display:block; }
+
+    /* Students table -> mobile friendly "cards" */
+    .students{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .student-card{
+      border: 1px solid rgba(15,23,42,0.10);
+      border-radius: 16px;
+      background: #fff;
+      overflow:hidden;
+    }
+    .student-top{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 10px 8px;
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+      background: linear-gradient(180deg, rgba(45,124,255,0.06), rgba(255,77,166,0.04));
+    }
+    .student-top .idx{
+      font-weight: 900;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 6px 10px;
+      border: 1px solid rgba(15,23,42,0.10);
+      border-radius: 999px;
+      background: #fff;
+    }
+    .student-top .total{
+      font-weight: 900;
+      color: #0b3a92;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(45,124,255,0.10);
+      border: 1px solid rgba(45,124,255,0.18);
+      min-width: 90px;
+      text-align:center;
+      direction:ltr;
+    }
+
+    .student-body{
+      padding: 10px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .grid2 .w2{ grid-column: 1 / -1; }
+
+    .num{
+      direction:ltr;
+      unicode-bidi: plaintext;
+      text-align: center;
+    }
+
+    .score-hint{
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .bottom-bar{
+      position: fixed;
+      left:0; right:0; bottom:0;
+      background: rgba(255,255,255,0.84);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(15,23,42,0.10);
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+      z-index: 50;
+    }
+    .bottom-actions{
+      max-width: 980px;
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* Desktop enhancements */
+    @media (min-width: 860px){
+      .app{ padding-bottom: 18px; }
+      .brand h1{ font-size: 18px; }
+      .bottom-bar{ position: static; background: transparent; border-top: 0; padding:0; backdrop-filter:none; }
+      .bottom-actions{ grid-template-columns: 1fr 1fr 1fr 1fr; margin-top: 12px; }
+      .grid2{ grid-template-columns: repeat(4, 1fr); }
+      .grid2 .w2{ grid-column: span 2; }
+    }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 12px; right: 12px;
+      bottom: calc(70px + env(safe-area-inset-bottom));
+      display:none;
+      justify-content:center;
+      z-index: 70;
+    }
+    .toast > div{
+      width: min(980px, 100%);
+      background: #fff;
+      border: 1px solid rgba(15,23,42,0.14);
+      box-shadow: var(--shadow);
+      border-radius: 16px;
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .toast .msg{ color: var(--text); line-height: 1.6; }
+    .toast .x{
+      width: 44px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: #fff;
+      cursor:pointer;
+      font-weight: 900;
+    }
+
+    dialog{
+      border: 0;
+      border-radius: 18px;
+      padding: 0;
+      width: min(720px, calc(100% - 22px));
+      box-shadow: 0 20px 60px rgba(15,23,42,0.18);
+    }
+    dialog::backdrop{ background: rgba(15,23,42,0.40); backdrop-filter: blur(2px); }
+    .modal{
+      background: #fff;
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid rgba(15,23,42,0.10);
+    }
+    .modal .mhd{
+      padding: 12px;
+      border-bottom: 1px solid rgba(15,23,42,0.10);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .modal .mhd h3{ margin:0; font-size: 14px; font-weight: 900; }
+    .modal .mbd{ padding: 12px; }
+    .modal .mft{
+      padding: 12px;
+      border-top: 1px solid rgba(15,23,42,0.10);
+      display:flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    /* Export stage */
+    .export-stage{
+      position: fixed;
+      left: -99999px;
+      top: 0;
+      width: 900px;
+      background: #ffffff;
+      color: #111827;
+      direction: rtl;
+      padding: 18px 18px 14px;
+      font-family: var(--font);
+    }
+    .export-title{
+      text-align:center;
+      font-weight: 900;
+      font-size: 18px;
+      margin: 2px 0 10px;
+    }
+    .export-meta{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+      font-size: 12.5px;
+      margin-bottom: 10px;
+    }
+    .export-meta .item{
+      border: 1px solid #e5e7eb;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #f9fafb;
+    }
+    .export-meta .lbl{ color: #374151; font-weight: 900; margin-inline-end: 6px; }
+    .export-table{
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 11.5px;
+    }
+    .export-table th, .export-table td{
+      border: 1px solid #d1d5db;
+      padding: 6px 4px;
+      text-align: center;
+      vertical-align: middle;
+      word-wrap: break-word;
+    }
+    .export-table th{
+      background: #eff6ff;
+      font-weight: 900;
+      font-size: 11px;
+    }
+    .export-table td.name{ text-align: right; padding-inline: 6px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <h1>فرم فعالیت کلاسی</h1>
+        <p class="sub" id="headSub"></p>
+      </div>
+      <div class="pill" title="وضعیت ذخیره">
+        <span class="dot"></span>
+        <span id="saveStateText">ذخیره خودکار</span>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="صفحات">
+      <button class="tab active" data-page="page-classes" type="button">کلاس‌ها</button>
+      <button class="tab" data-page="page-students" type="button">زبان‌آموزان</button>
+      <button class="tab" data-page="page-export" type="button">خروجی</button>
+      <button class="tab" data-page="page-help" type="button">آموزش</button>
+    </nav>
+
+    <!-- Page: Classes -->
+    <section class="page active" id="page-classes">
+      <div class="card">
+        <div class="hd">
+          <h2>مدیریت کلاس</h2>
+          <span id="classesCount" style="color:var(--muted); font-size:12px; font-weight:900;"></span>
+        </div>
+        <div class="bd">
+          <div class="row">
+            <div class="w100">
+              <label for="classSelect">انتخاب کلاس</label>
+              <select id="classSelect"></select>
+            </div>
+            <button class="btn primary" id="btnAddClass" type="button">افزودن کلاس</button>
+            <button class="btn ghost" id="btnRenameClass" type="button">تغییر نام</button>
+            <button class="btn pink" id="btnDeleteClass" type="button">حذف</button>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="row">
+            <div class="w100" style="flex: 1 1 180px;">
+              <label for="daySelect">روز هفته</label>
+              <select id="daySelect">
+                <option value="">انتخاب روز...</option>
+                <option value="شنبه">شنبه</option>
+                <option value="یکشنبه">یکشنبه</option>
+                <option value="دوشنبه">دوشنبه</option>
+                <option value="سه‌شنبه">سه‌شنبه</option>
+                <option value="چهارشنبه">چهارشنبه</option>
+                <option value="پنجشنبه">پنجشنبه</option>
+                <option value="جمعه">جمعه</option>
+              </select>
+            </div>
+            <div class="tiny">
+              <label for="sessionNoInput">جلسه</label>
+              <input id="sessionNoInput" type="text" inputmode="numeric" placeholder="خودکار" autocomplete="off">
+            </div>
+            <div class="w100" style="flex: 1 1 200px;">
+              <label for="dateInput">تاریخ (شمسی)</label>
+              <input id="dateInput" type="text" placeholder="خودکار" autocomplete="off">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Page: Students -->
+    <section class="page" id="page-students">
+      <div class="card">
+        <div class="hd">
+          <h2>زبان‌آموزان</h2>
+          <span id="studentsCount" style="color:var(--muted); font-size:12px; font-weight:900;"></span>
+        </div>
+        <div class="bd">
+          <div class="row">
+            <div class="w100">
+              <label for="newStudentName">نام و نام خانوادگی</label>
+              <input id="newStudentName" type="text" placeholder="مثلاً علی رضایی" autocomplete="off">
+            </div>
+            <button class="btn primary" id="btnAddStudent" type="button">افزودن</button>
+          </div>
+
+          <div style="height:12px;"></div>
+
+          <div id="studentsEmpty" class="card" style="box-shadow:none; border-radius: 16px; display:none;">
+            <div class="bd" style="padding: 12px; color: var(--muted); font-weight: 700;">
+              هنوز زبان‌آموزی اضافه نشده.
+            </div>
+          </div>
+
+          <div class="students" id="studentsList"></div>
+
+          <div class="score-hint" style="margin-top: 12px;">
+            نمره‌ها: حضور(۵)، تکالیف(۱۰)، مکالمه(۵)، روخوانی(۵)، گرامر(۵)، املا و انشا(۵)، انضباط(۵) — جمع تا ۴۰
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page: Export -->
+    <section class="page" id="page-export">
+      <div class="card">
+        <div class="hd">
+          <h2>خروجی PNG</h2>
+          <span style="color:var(--muted); font-size:12px; font-weight:900;">فرم قابل ارسال</span>
+        </div>
+        <div class="bd">
+          <div class="row">
+            <button class="btn primary" id="btnExportPng" type="button">گرفتن خروجی PNG</button>
+            <button class="btn ghost" id="btnBackup" type="button">پشتیبان JSON</button>
+            <button class="btn ghost" id="btnRestore" type="button">بازیابی JSON</button>
+            <button class="btn pink" id="btnWipe" type="button">پاک‌کردن همه</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page: Help -->
+    <section class="page" id="page-help">
+      <div class="card">
+        <div class="hd">
+          <h2>آموزش سریع</h2>
+          <span style="color:var(--muted); font-size:12px; font-weight:900;">۳ مرحله</span>
+        </div>
+        <div class="bd" style="line-height: 1.9; color: var(--text); font-weight: 650;">
+          <ol style="margin:0; padding-right: 18px;">
+            <li>تو صفحه «کلاس‌ها»، کلاس رو بساز/انتخاب کن، روز هفته رو مشخص کن. تاریخ شمسی و جلسه به‌صورت خودکار پر می‌شن.</li>
+            <li>تو صفحه «زبان‌آموزان»، اسم‌ها رو اضافه کن و نمره‌ها رو وارد کن. جمع خودش حساب می‌شه.</li>
+            <li>تو صفحه «خروجی»، دکمه «گرفتن خروجی PNG» رو بزن.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom bar (mobile) -->
+    <div class="bottom-bar" aria-label="عملیات سریع">
+      <div class="bottom-actions">
+        <button class="btn primary" id="quickStudents" type="button">زبان‌آموزان</button>
+        <button class="btn pink" id="quickExport" type="button">خروجی</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <div>
+      <div class="msg" id="toastMsg"></div>
+      <button class="x" id="toastX" type="button">×</button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <dialog id="dlg">
+    <div class="modal">
+      <div class="mhd">
+        <h3 id="dlgTitle">...</h3>
+        <button class="btn ghost" id="dlgClose" type="button" style="min-height:40px; padding:10px 12px;">بستن</button>
+      </div>
+      <div class="mbd" id="dlgBody"></div>
+      <div class="mft" id="dlgFoot"></div>
+    </div>
+  </dialog>
+
+  <input type="file" id="restoreFile" accept="application/json,.json" style="display:none;" />
+  <div class="export-stage" id="exportStage" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" crossorigin="anonymous"></script>
+
+  <script>
+    'use strict';
+
+    const STORAGE_KEY = 'offline_class_grades_v3';
+    const SCORE_COLS = [
+      { key: 'attendance', label: 'حضور و تأخیر', max: 5 },
+      { key: 'homework', label: 'تکالیف', max: 10 },
+      { key: 'speaking', label: 'مکالمه', max: 5 },
+      { key: 'reading', label: 'روخوانی', max: 5 },
+      { key: 'grammar', label: 'گرامر', max: 5 },
+      { key: 'dictation', label: 'املا و انشا', max: 5 },
+      { key: 'discipline', label: 'انضباط', max: 5 }
+    ];
+    const TOTAL_MAX = 40;
+
+    const $ = (id) => document.getElementById(id);
+
+    const el = {
+      headSub: $('headSub'),
+      saveStateText: $('saveStateText'),
+
+      tabs: Array.from(document.querySelectorAll('.tab')),
+      pages: Array.from(document.querySelectorAll('.page')),
+
+      classSelect: $('classSelect'),
+      btnAddClass: $('btnAddClass'),
+      btnRenameClass: $('btnRenameClass'),
+      btnDeleteClass: $('btnDeleteClass'),
+      classesCount: $('classesCount'),
+
+      daySelect: $('daySelect'),
+      sessionNoInput: $('sessionNoInput'),
+      dateInput: $('dateInput'),
+
+      studentsCount: $('studentsCount'),
+      newStudentName: $('newStudentName'),
+      btnAddStudent: $('btnAddStudent'),
+      studentsEmpty: $('studentsEmpty'),
+      studentsList: $('studentsList'),
+
+      btnExportPng: $('btnExportPng'),
+      btnBackup: $('btnBackup'),
+      btnRestore: $('btnRestore'),
+      btnWipe: $('btnWipe'),
+
+      quickStudents: $('quickStudents'),
+      quickExport: $('quickExport'),
+
+      toast: $('toast'),
+      toastMsg: $('toastMsg'),
+      toastX: $('toastX'),
+
+      dlg: $('dlg'),
+      dlgTitle: $('dlgTitle'),
+      dlgBody: $('dlgBody'),
+      dlgFoot: $('dlgFoot'),
+      dlgClose: $('dlgClose'),
+
+      restoreFile: $('restoreFile'),
+      exportStage: $('exportStage')
+    };
+
+    let state = null;
+
+    function uid(){
+      return 'id_' + Math.random().toString(16).slice(2) + '_' + Date.now().toString(16);
+    }
+
+    function safeText(v){
+      return (v === null || v === undefined) ? '' : String(v);
+    }
+
+    function normalizeDecimalString(s){
+      const map = {
+        '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9',
+        '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
+        '٫':'.','،':'.',',':'.'
+      };
+      let out = '';
+      for (const ch of String(s ?? '')) out += (map[ch] ?? ch);
+      return out.trim();
+    }
+
+    function parseScore(raw, max){
+      const txt = normalizeDecimalString(raw);
+      if (txt === '') return { value: 0, valid: true, empty: true };
+      const safe = txt.startsWith('.') ? '0' + txt : txt;
+      const n = Number(safe);
+      if (!Number.isFinite(n)) return { value: 0, valid: false, empty: false };
+      if (n < 0) return { value: 0, valid: false, empty: false };
+      if (n > max) return { value: max, valid: false, empty: false };
+      const fixed = Math.round(n * 100) / 100;
+      return { value: fixed, valid: true, empty: false };
+    }
+
+    function computeTotal(scores){
+      let sum = 0;
+      for (const c of SCORE_COLS){
+        const v = Number(scores?.[c.key]);
+        if (Number.isFinite(v)) sum += v;
+      }
+      sum = Math.min(TOTAL_MAX, Math.max(0, Math.round(sum * 100) / 100));
+      return sum;
+    }
+
+    function makeFreshState(){
+      const firstId = uid();
+      return {
+        version: 3,
+        selectedClassId: firstId,
+        classes: [{
+          id: firstId,
+          name: 'کلاس ۱',
+          session: {
+            dayOfWeek: '',
+            sessionNo: '',
+            dateJalali: ''
+          },
+          students: []
+        }]
+      };
+    }
+
+    function sanitizeState(obj){
+      const out = { version: 3, selectedClassId: null, classes: [] };
+      if (obj && typeof obj === 'object'){
+        if (typeof obj.selectedClassId === 'string') out.selectedClassId = obj.selectedClassId;
+        if (Array.isArray(obj.classes)) out.classes = obj.classes.map(sanitizeClass).filter(Boolean);
+      }
+      if (!out.classes.length){
+        const fresh = makeFreshState();
+        out.classes = fresh.classes;
+        out.selectedClassId = fresh.selectedClassId;
+      }
+      if (!out.selectedClassId || !out.classes.some(c => c.id === out.selectedClassId)){
+        out.selectedClassId = out.classes[0].id;
+      }
+      return out;
+    }
+
+    function sanitizeClass(c){
+      if (!c || typeof c !== 'object') return null;
+      const id = (typeof c.id === 'string' && c.id) ? c.id : uid();
+      const name = (typeof c.name === 'string') ? c.name : 'کلاس';
+      const session = (c.session && typeof c.session === 'object') ? c.session : {};
+      const students = Array.isArray(c.students) ? c.students : [];
+
+      return {
+        id,
+        name,
+        session: {
+          dayOfWeek: typeof session.dayOfWeek === 'string' ? session.dayOfWeek : '',
+          sessionNo: typeof session.sessionNo === 'string' ? session.sessionNo : '',
+          dateJalali: typeof session.dateJalali === 'string' ? session.dateJalali : ''
+        },
+        students: students.map(sanitizeStudent).filter(Boolean)
+      };
+    }
+
+    function sanitizeStudent(s){
+      if (!s || typeof s !== 'object') return null;
+      const id = (typeof s.id === 'string' && s.id) ? s.id : uid();
+      const fullName = typeof s.fullName === 'string' ? s.fullName : '';
+
+      const scoresRaw = (s.scores && typeof s.scores === 'object') ? s.scores : {};
+      const scores = {};
+      for (const c of SCORE_COLS){
+        const v = Number(scoresRaw[c.key]);
+        scores[c.key] = Number.isFinite(v) ? Math.min(c.max, Math.max(0, Math.round(v*100)/100)) : 0;
+      }
+
+      const extras = (s.extras && typeof s.extras === 'object') ? s.extras : {};
+      return {
+        id,
+        fullName,
+        scores,
+        extras: {
+          notes: typeof extras.notes === 'string' ? extras.notes : ''
+        }
+      };
+    }
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw){
+          state = makeFreshState();
+          saveState();
+          return;
+        }
+        state = sanitizeState(JSON.parse(raw));
+      }catch(err){
+        console.error(err);
+        state = makeFreshState();
+        saveState();
+        toast('داده‌های قبلی قابل خواندن نبود. ساختار جدید ساخته شد.');
+      }
+    }
+
+    function saveState(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        el.saveStateText.textContent = 'ذخیره خودکار';
+      }catch(err){
+        console.error(err);
+        el.saveStateText.textContent = 'خطا در ذخیره';
+        toast('ذخیره‌سازی انجام نشد.');
+      }
+    }
+
+    function getSelectedClass(){
+      const id = state.selectedClassId;
+      let cls = state.classes.find(c => c.id === id) || null;
+      if (!cls && state.classes.length){
+        state.selectedClassId = state.classes[0].id;
+        cls = state.classes[0];
+      }
+      return cls;
+    }
+
+    function jalaliToday(){
+      try{
+        const fmt = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+          year: 'numeric', month: '2-digit', day: '2-digit'
+        });
+        return fmt.format(new Date());
+      }catch(err){
+        return '';
+      }
+    }
+
+    function updateHeaderSub(){
+      const cls = getSelectedClass();
+      const name = cls?.name || '';
+      const day = cls?.session?.dayOfWeek || '';
+      const date = cls?.session?.dateJalali || '';
+      const sessionNo = cls?.session?.sessionNo || '';
+      const parts = [];
+      if (name) parts.push(name);
+      if (day) parts.push(day);
+      if (sessionNo) parts.push('جلسه ' + sessionNo);
+      if (date) parts.push(date);
+      el.headSub.textContent = parts.join(' • ');
+    }
+
+    function showPage(pageId){
+      el.pages.forEach(p => p.classList.toggle('active', p.id === pageId));
+      el.tabs.forEach(t => t.classList.toggle('active', t.dataset.page === pageId));
+    }
+
+    function renderClasses(){
+      el.classesCount.textContent = state.classes.length + ' کلاس';
+      el.classSelect.innerHTML = '';
+      state.classes.forEach((c, i) => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = (i+1) + ' — ' + (c.name || 'کلاس');
+        if (c.id === state.selectedClassId) opt.selected = true;
+        el.classSelect.appendChild(opt);
+      });
+
+      const cls = getSelectedClass();
+      if (!cls) return;
+
+      if (!cls.session.sessionNo) cls.session.sessionNo = '1';
+      if (!cls.session.dateJalali) cls.session.dateJalali = jalaliToday();
+
+      el.daySelect.value = cls.session.dayOfWeek || '';
+      el.sessionNoInput.value = cls.session.sessionNo || '';
+      el.dateInput.value = cls.session.dateJalali || '';
+
+      saveState();
+      updateHeaderSub();
+    }
+
+    function renderStudents(){
+      const cls = getSelectedClass();
+      if (!cls) return;
+
+      const students = cls.students || [];
+      el.studentsCount.textContent = students.length + ' نفر';
+      el.studentsEmpty.style.display = students.length ? 'none' : 'block';
+
+      el.studentsList.innerHTML = '';
+      students.forEach((st, idx) => {
+        const card = document.createElement('div');
+        card.className = 'student-card';
+
+        const top = document.createElement('div');
+        top.className = 'student-top';
+
+        const left = document.createElement('div');
+        left.style.display = 'flex';
+        left.style.alignItems = 'center';
+        left.style.gap = '8px';
+
+        const badge = document.createElement('div');
+        badge.className = 'idx';
+        badge.textContent = 'ردیف ' + String(idx + 1);
+
+        left.appendChild(badge);
+
+        const total = document.createElement('div');
+        total.className = 'total';
+        total.textContent = String(computeTotal(st.scores)) + ' / ۴۰';
+
+        top.appendChild(left);
+        top.appendChild(total);
+
+        const body = document.createElement('div');
+        body.className = 'student-body';
+
+        const nameWrap = document.createElement('div');
+        const nameLbl = document.createElement('label');
+        nameLbl.textContent = 'نام و نام خانوادگی';
+        const nameInp = document.createElement('input');
+        nameInp.type = 'text';
+        nameInp.value = st.fullName || '';
+        nameInp.placeholder = 'نام...';
+        nameInp.autocomplete = 'off';
+        nameInp.addEventListener('input', () => {
+          st.fullName = nameInp.value;
+          saveState();
+        });
+        nameWrap.appendChild(nameLbl);
+        nameWrap.appendChild(nameInp);
+        body.appendChild(nameWrap);
+
+        const grid = document.createElement('div');
+        grid.className = 'grid2';
+
+        for (const c of SCORE_COLS){
+          const w = document.createElement('div');
+          const l = document.createElement('label');
+          l.textContent = c.label + ' (' + c.max + ')';
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.inputMode = 'decimal';
+          inp.className = 'num';
+          const cur = Number(st.scores?.[c.key]);
+          inp.value = (Number.isFinite(cur) && cur !== 0) ? String(cur) : '';
+          inp.placeholder = '۰';
+          inp.addEventListener('input', () => {
+            const r = parseScore(inp.value, c.max);
+            st.scores[c.key] = r.value;
+            inp.style.borderColor = r.valid ? 'rgba(15,23,42,0.14)' : 'rgba(255,77,166,0.70)';
+            total.textContent = String(computeTotal(st.scores)) + ' / ۴۰';
+            saveState();
+          });
+          inp.addEventListener('blur', () => {
+            const v = Number(st.scores[c.key]);
+            inp.value = (Number.isFinite(v) && v !== 0) ? String(v) : '';
+            inp.style.borderColor = 'rgba(15,23,42,0.14)';
+          });
+          w.appendChild(l);
+          w.appendChild(inp);
+          grid.appendChild(w);
+        }
+
+        const notes = document.createElement('div');
+        notes.className = 'w2';
+        const notesL = document.createElement('label');
+        notesL.textContent = 'توضیحات';
+        const notesI = document.createElement('input');
+        notesI.type = 'text';
+        notesI.value = st.extras?.notes || '';
+        notesI.placeholder = 'اختیاری';
+        notesI.addEventListener('input', () => { st.extras.notes = notesI.value; saveState(); });
+        notes.appendChild(notesL);
+        notes.appendChild(notesI);
+
+        grid.appendChild(notes);
+        body.appendChild(grid);
+
+        const act = document.createElement('div');
+        act.className = 'row';
+        act.style.marginTop = '2px';
+
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'btn pink';
+        del.textContent = 'حذف زبان‌آموز';
+        del.addEventListener('click', () => confirmDeleteStudent(st.id));
+        act.appendChild(del);
+
+        body.appendChild(act);
+        card.appendChild(top);
+        card.appendChild(body);
+
+        el.studentsList.appendChild(card);
+      });
+
+      updateHeaderSub();
+    }
+
+    function renderAll(){
+      renderClasses();
+      renderStudents();
+    }
+
+    function openDlg(title, bodyNode, footButtons){
+      el.dlgTitle.textContent = safeText(title);
+      el.dlgBody.innerHTML = '';
+      el.dlgFoot.innerHTML = '';
+      if (bodyNode) el.dlgBody.appendChild(bodyNode);
+      if (footButtons && footButtons.length){
+        footButtons.forEach(b => el.dlgFoot.appendChild(b));
+      }
+      try{ el.dlg.showModal(); }catch(_e){}
+    }
+
+    function closeDlg(){
+      try{ el.dlg.close(); }catch(_e){}
+      el.dlgBody.innerHTML = '';
+      el.dlgFoot.innerHTML = '';
+    }
+
+    function mkBtn(text, cls, onClick){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn ' + cls;
+      b.textContent = text;
+      b.addEventListener('click', onClick);
+      return b;
+    }
+
+    function toast(msg){
+      el.toastMsg.textContent = safeText(msg);
+      el.toast.style.display = 'flex';
+      window.clearTimeout(toast._t);
+      toast._t = window.setTimeout(()=>{ el.toast.style.display='none'; }, 4200);
+    }
+
+    function addClassFlow(){
+      const wrap = document.createElement('div');
+      const lab = document.createElement('label');
+      lab.textContent = 'نام کلاس';
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.placeholder = 'مثلاً A2';
+      inp.autocomplete = 'off';
+      wrap.appendChild(lab);
+      wrap.appendChild(inp);
+
+      const ok = mkBtn('ایجاد', 'primary', () => {
+        const name = (inp.value || '').trim();
+        const id = uid();
+        state.classes.push({
+          id,
+          name: name || ('کلاس ' + (state.classes.length + 1)),
+          session: {
+            dayOfWeek: '',
+            sessionNo: '',
+            dateJalali: ''
+          },
+          students: []
+        });
+        state.selectedClassId = id;
+        saveState();
+        renderAll();
+        closeDlg();
+        toast('کلاس ساخته شد.');
+      });
+      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
+      openDlg('افزودن کلاس', wrap, [cancel, ok]);
+      inp.focus();
+    }
+
+    function renameClassFlow(){
+      const cls = getSelectedClass();
+      if (!cls) return;
+
+      const wrap = document.createElement('div');
+      const lab = document.createElement('label');
+      lab.textContent = 'نام جدید کلاس';
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.value = cls.name || '';
+      inp.autocomplete = 'off';
+      wrap.appendChild(lab);
+      wrap.appendChild(inp);
+
+      const ok = mkBtn('ذخیره', 'primary', () => {
+        const name = (inp.value || '').trim();
+        cls.name = name || cls.name || 'کلاس';
+        saveState();
+        renderAll();
+        closeDlg();
+        toast('نام کلاس تغییر کرد.');
+      });
+      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
+      openDlg('تغییر نام', wrap, [cancel, ok]);
+      inp.focus();
+      inp.select();
+    }
+
+    function deleteClassFlow(){
+      if (state.classes.length <= 1){
+        toast('حداقل باید یک کلاس وجود داشته باشه.');
+        return;
+      }
+      const cls = getSelectedClass();
+      if (!cls) return;
+
+      const wrap = document.createElement('div');
+      wrap.style.lineHeight = '1.9';
+      wrap.textContent = 'کلاس حذف بشه؟ (همه نمراتش هم پاک می‌شه)';
+
+      const ok = mkBtn('حذف', 'pink', () => {
+        const idx = state.classes.findIndex(c => c.id === cls.id);
+        if (idx >= 0) state.classes.splice(idx, 1);
+        state.selectedClassId = state.classes[0]?.id || null;
+        saveState();
+        renderAll();
+        closeDlg();
+        toast('کلاس حذف شد.');
+      });
+      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
+      openDlg('تأیید حذف', wrap, [cancel, ok]);
+    }
+
+    function addStudent(){
+      const cls = getSelectedClass();
+      if (!cls) return;
+      const name = (el.newStudentName.value || '').trim();
+      if (!name){
+        toast('اسم رو وارد کن.');
+        el.newStudentName.focus();
+        return;
+      }
+      const scores = {};
+      SCORE_COLS.forEach(c => scores[c.key] = 0);
+
+      cls.students.push({
+        id: uid(),
+        fullName: name,
+        scores,
+        extras: { notes:'' }
+      });
+
+      el.newStudentName.value = '';
+      if (!cls.session.sessionNo) cls.session.sessionNo = '1';
+      if (!cls.session.dateJalali) cls.session.dateJalali = jalaliToday();
+
+      saveState();
+      renderStudents();
+      toast('اضافه شد.');
+    }
+
+    function confirmDeleteStudent(studentId){
+      const cls = getSelectedClass();
+      if (!cls) return;
+      const st = cls.students.find(s => s.id === studentId);
+      if (!st) return;
+
+      const wrap = document.createElement('div');
+      wrap.style.lineHeight = '1.9';
+      wrap.textContent = 'حذف زبان‌آموز: ' + (st.fullName || 'بدون نام') + ' ؟';
+
+      const ok = mkBtn('حذف', 'pink', () => {
+        const idx = cls.students.findIndex(s => s.id === studentId);
+        if (idx >= 0) cls.students.splice(idx, 1);
+        saveState();
+        renderStudents();
+        closeDlg();
+        toast('حذف شد.');
+      });
+      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
+      openDlg('تأیید حذف', wrap, [cancel, ok]);
+    }
+
+    function buildExportDom(cls){
+      const stage = el.exportStage;
+      stage.innerHTML = '';
+
+      const title = document.createElement('div');
+      title.className = 'export-title';
+      title.textContent = 'فعالیت کلاسی زبان‌آموزان';
+      stage.appendChild(title);
+
+      const meta = document.createElement('div');
+      meta.className = 'export-meta';
+
+      const items = [
+        ['نام کلاس', cls.name || ''],
+        ['روز هفته', cls.session.dayOfWeek || ''],
+        ['جلسه', cls.session.sessionNo || ''],
+        ['تاریخ (شمسی)', cls.session.dateJalali || '']
+      ];
+
+      for (const [k,v] of items){
+        const it = document.createElement('div');
+        it.className = 'item';
+        const lbl = document.createElement('span');
+        lbl.className = 'lbl';
+        lbl.textContent = k + ':';
+        const val = document.createElement('span');
+        val.textContent = safeText(v);
+        it.appendChild(lbl);
+        it.appendChild(val);
+        meta.appendChild(it);
+      }
+
+      stage.appendChild(meta);
+
+      const table = document.createElement('table');
+      table.className = 'export-table';
+
+      const thead = document.createElement('thead');
+      const trh = document.createElement('tr');
+      const headers = [
+        'ردیف','نام و نام خانوادگی',
+        'حضور و تأخیر (۵)',
+        'تکالیف (۱۰)',
+        'مکالمه (۵)',
+        'روخوانی (۵)',
+        'گرامر (۵)',
+        'املا و انشا (۵)',
+        'انضباط (۵)',
+        'جمع (۴۰)',
+        'توضیحات'
+      ];
+      headers.forEach(h=>{
+        const th = document.createElement('th');
+        th.textContent = h;
+        trh.appendChild(th);
+      });
+      thead.appendChild(trh);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const students = cls.students || [];
+      const rowsCount = Math.max(25, students.length);
+
+      for (let i=0;i<rowsCount;i++){
+        const st = students[i] || null;
+        const tr = document.createElement('tr');
+
+        const row = [
+          String(i+1),
+          st ? (st.fullName || '') : '',
+          st ? String(st.scores.attendance ?? '') : '',
+          st ? String(st.scores.homework ?? '') : '',
+          st ? String(st.scores.speaking ?? '') : '',
+          st ? String(st.scores.reading ?? '') : '',
+          st ? String(st.scores.grammar ?? '') : '',
+          st ? String(st.scores.dictation ?? '') : '',
+          st ? String(st.scores.discipline ?? '') : '',
+          st ? String(computeTotal(st.scores)) : '',
+          st ? (st.extras.notes || '') : ''
+        ];
+
+        row.forEach((txt, j)=>{
+          const td = document.createElement('td');
+          if (j === 1) td.className = 'name';
+          td.textContent = safeText(txt);
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      }
+
+      table.appendChild(tbody);
+      stage.appendChild(table);
+
+      return stage;
+    }
+
+    async function exportPng(){
+      if (typeof window.html2canvas !== 'function'){
+        toast('خطا در لود کتابخانه خروجی.');
+        return;
+      }
+      const cls = getSelectedClass();
+      if (!cls) return;
+
+      const target = buildExportDom(cls);
+      const clsName = (cls.name || 'کلاس').replace(/[\\\/:*?"<>|]+/g,'_').trim() || 'کلاس';
+      const sess = (cls.session.sessionNo || '').trim();
+      const fileName = `فعالیت_کلاسی_${clsName}${sess ? '_جلسه_' + sess : ''}.png`;
+
+      try{
+        const canvas = await window.html2canvas(target, {
+          backgroundColor: '#ffffff',
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          windowWidth: target.scrollWidth,
+          windowHeight: target.scrollHeight
+        });
+        const url = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        toast('خروجی آماده شد.');
+      }catch(err){
+        console.error(err);
+        toast('خروجی گرفتن ناموفق بود.');
+      }finally{
+        el.exportStage.innerHTML = '';
+      }
+    }
+
+    function backup(){
+      try{
+        const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'backup_class_grades.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        toast('پشتیبان دانلود شد.');
+      }catch(err){
+        console.error(err);
+        toast('پشتیبان‌گیری ناموفق بود.');
+      }
+    }
+
+    function restoreFlow(){
+      el.restoreFile.value = '';
+      el.restoreFile.click();
+    }
+
+    async function restoreFromFile(file){
+      if (!file) return;
+      try{
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+        state = sanitizeState(parsed);
+        saveState();
+        renderAll();
+        toast('بازیابی انجام شد.');
+      }catch(err){
+        console.error(err);
+        toast('فایل معتبر نیست.');
+      }
+    }
+
+    function wipeFlow(){
+      const wrap = document.createElement('div');
+      wrap.style.lineHeight = '1.9';
+      wrap.textContent = 'همه داده‌ها پاک بشه؟';
+
+      const ok = mkBtn('پاک‌کردن', 'pink', () => {
+        try{ localStorage.removeItem(STORAGE_KEY); }catch(_e){}
+        state = makeFreshState();
+        saveState();
+        renderAll();
+        closeDlg();
+        toast('پاک شد.');
+      });
+      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
+      openDlg('تأیید', wrap, [cancel, ok]);
+    }
+
+    function bind(){
+      el.tabs.forEach(t => {
+        t.addEventListener('click', () => showPage(t.dataset.page));
+      });
+
+      el.quickStudents.addEventListener('click', () => showPage('page-students'));
+      el.quickExport.addEventListener('click', () => showPage('page-export'));
+
+      el.toastX.addEventListener('click', () => el.toast.style.display = 'none');
+      el.dlgClose.addEventListener('click', () => closeDlg());
+
+      el.classSelect.addEventListener('change', () => {
+        state.selectedClassId = el.classSelect.value;
+        saveState();
+        renderAll();
+      });
+
+      el.btnAddClass.addEventListener('click', addClassFlow);
+      el.btnRenameClass.addEventListener('click', renameClassFlow);
+      el.btnDeleteClass.addEventListener('click', deleteClassFlow);
+
+      el.daySelect.addEventListener('change', () => {
+        const cls = getSelectedClass(); if (!cls) return;
+        cls.session.dayOfWeek = el.daySelect.value;
+        saveState();
+        updateHeaderSub();
+      });
+
+      el.sessionNoInput.addEventListener('input', () => {
+        const cls = getSelectedClass(); if (!cls) return;
+        cls.session.sessionNo = el.sessionNoInput.value;
+        saveState();
+        updateHeaderSub();
+      });
+
+      el.dateInput.addEventListener('input', () => {
+        const cls = getSelectedClass(); if (!cls) return;
+        cls.session.dateJalali = el.dateInput.value;
+        saveState();
+        updateHeaderSub();
+      });
+
+      el.btnAddStudent.addEventListener('click', addStudent);
+      el.newStudentName.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter'){ e.preventDefault(); addStudent(); }
+      });
+
+      el.btnExportPng.addEventListener('click', exportPng);
+      el.btnBackup.addEventListener('click', backup);
+      el.btnRestore.addEventListener('click', restoreFlow);
+      el.btnWipe.addEventListener('click', wipeFlow);
+
+      el.restoreFile.addEventListener('change', async () => {
+        const f = el.restoreFile.files && el.restoreFile.files[0];
+        await restoreFromFile(f);
+      });
+    }
+
+    function init(){
+      loadState();
+      const cls = getSelectedClass();
+      if (cls){
+        if (!cls.session.dateJalali) cls.session.dateJalali = jalaliToday();
+        if (!cls.session.sessionNo) cls.session.sessionNo = '1';
+        saveState();
+      }
+      bind();
+      renderAll();
+      showPage('page-classes');
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
