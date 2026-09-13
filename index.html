@@ -1,437 +1,558 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#2d7cff" />
   <title>فعالیت کلاسی زبان‌آموزان</title>
-  
+
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#2563eb">
 
   <style>
-    :root{
+    :root {
       --bg: #f7fbff;
       --card: #ffffff;
       --text: #0f172a;
       --muted: #5b6b82;
-      --line: rgba(15,23,42,0.10);
+      --line: rgba(15, 23, 42, 0.10);
 
       --blue: #2d7cff;
-      --blue2:#1aa6ff;
-      --pink:#ff4da6;
-      --pink2:#ff7bc3;
+      --blue2: #1aa6ff;
+      --pink: #ff4da6;
+      --pink2: #ff7bc3;
 
       --shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
       --r: 16px;
       --r2: 12px;
-      --focus: 0 0 0 4px rgba(45,124,255,0.18);
+      --focus: 0 0 0 4px rgba(45, 124, 255, 0.18);
 
       --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Sans", Arial, sans-serif;
     }
 
-    *{ box-sizing: border-box; }
-    html, body{ height:100%; }
-    body{
-      margin:0;
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
       font-family: var(--font);
       color: var(--text);
       background:
-        radial-gradient(900px 600px at 80% -10%, rgba(255,77,166,0.18), transparent 60%),
-        radial-gradient(900px 600px at 10% -10%, rgba(45,124,255,0.18), transparent 60%),
+        radial-gradient(900px 600px at 80% -10%, rgba(255, 77, 166, 0.18), transparent 60%),
+        radial-gradient(900px 600px at 10% -10%, rgba(45, 124, 255, 0.18), transparent 60%),
         var(--bg);
     }
 
-    /* Mobile-first layout */
-    .app{
+    .app {
       max-width: 980px;
       margin: 0 auto;
-      padding: 12px 12px calc(76px + env(safe-area-inset-bottom));
+      padding: 12px 12px calc(80px + env(safe-area-inset-bottom));
     }
 
-    header{
-      display:flex;
-      align-items:center;
+    header {
+      display: flex;
+      align-items: center;
       justify-content: space-between;
       gap: 10px;
       padding: 6px 2px 10px;
     }
-    .brand{
-      display:flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .brand h1{
-      margin:0;
+
+    .brand h1 {
+      margin: 0;
       font-size: 16px;
       font-weight: 900;
-      letter-spacing: -0.2px;
     }
-    .brand .sub{
-      margin:0;
+
+    .brand .sub {
+      margin: 0;
       font-size: 12px;
       color: var(--muted);
     }
 
-    .pill{
-      display:flex;
-      align-items:center;
-      gap:8px;
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       padding: 8px 10px;
       border-radius: 999px;
       background: #fff;
       border: 1px solid var(--line);
-      box-shadow: 0 6px 16px rgba(15,23,42,0.06);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
       font-size: 12px;
       color: var(--muted);
       white-space: nowrap;
-      user-select:none;
-    }
-    .dot{
-      width:8px; height:8px;
-      border-radius: 999px;
-      background: var(--blue);
-      box-shadow: 0 0 0 4px rgba(45,124,255,0.14);
+      user-select: none;
     }
 
-    .card{
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blue);
+      box-shadow: 0 0 0 4px rgba(45, 124, 255, 0.14);
+    }
+
+    .card {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--r);
       box-shadow: var(--shadow);
-      overflow:hidden;
+      overflow: hidden;
     }
-    .card .hd{
-      padding: 12px 12px 10px;
+
+    .card .hd {
+      padding: 12px;
       border-bottom: 1px solid var(--line);
-      display:flex;
-      align-items:center;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
       gap: 10px;
     }
-    .card .hd h2{
-      margin:0;
+
+    .card .hd h2 {
+      margin: 0;
       font-size: 14px;
       font-weight: 900;
     }
-    .card .bd{ padding: 12px; }
 
-    .row{
-      display:flex;
+    .card .bd {
+      padding: 12px;
+    }
+
+    .row {
+      display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      align-items:center;
+      align-items: center;
     }
-    .row > * { flex: 1 1 160px; }
-    .row .w100{ flex: 1 1 100%; }
-    .row .tiny{ flex: 1 1 110px; }
 
-    label{
-      display:block;
+    .row>* {
+      flex: 1 1 160px;
+    }
+
+    .row .w100 {
+      flex: 1 1 100%;
+    }
+
+    .row .tiny {
+      flex: 1 1 90px;
+    }
+
+    label {
+      display: block;
       font-size: 12px;
       color: var(--muted);
       margin: 0 0 6px;
     }
 
-    input, select, textarea{
-      width:100%;
-      padding: 11px 12px;
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
       border-radius: 14px;
-      border: 1px solid rgba(15,23,42,0.14);
+      border: 1px solid rgba(15, 23, 42, 0.14);
       background: #fff;
       outline: none;
       color: var(--text);
-      font-size: 14px;
+      font-size: 15px;
     }
-    input:focus, select:focus, textarea:focus{
-      box-shadow: var(--focus);
-      border-color: rgba(45,124,255,0.55);
-    }
-    textarea{ min-height: 44px; resize: vertical; }
 
-    .btn{
-      appearance:none;
+    input:focus,
+    select:focus,
+    textarea:focus {
+      box-shadow: var(--focus);
+      border-color: rgba(45, 124, 255, 0.55);
+    }
+
+    .btn {
+      appearance: none;
       border: 0;
       border-radius: 14px;
-      padding: 12px 12px;
-      min-height: 46px;
+      padding: 12px 14px;
+      min-height: 48px;
       font-weight: 900;
-      cursor:pointer;
-      user-select:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
+      cursor: pointer;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       gap: 8px;
+      font-size: 14px;
     }
-    .btn.primary{
+
+    .btn.primary {
       background: linear-gradient(135deg, var(--blue), var(--blue2));
       color: #fff;
     }
-    .btn.pink{
+
+    .btn.pink {
       background: linear-gradient(135deg, var(--pink), var(--pink2));
       color: #fff;
     }
-    .btn.ghost{
+
+    .btn.ghost {
       background: #fff;
-      border: 1px solid rgba(15,23,42,0.14);
+      border: 1px solid rgba(15, 23, 42, 0.14);
       color: var(--text);
     }
-    .btn:active{ transform: translateY(1px); }
-    .btn:disabled{ opacity: 0.55; cursor:not-allowed; }
 
-    /* Tabs (multi-page inside one HTML) */
-    .tabs{
-      display:flex;
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
       gap: 8px;
       padding: 10px 0 12px;
-      overflow:auto;
+      overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
-    .tab{
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
       flex: 0 0 auto;
       border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.14);
+      border: 1px solid rgba(15, 23, 42, 0.14);
       background: #fff;
-      padding: 10px 12px;
+      padding: 10px 16px;
       font-weight: 900;
       font-size: 13px;
       color: var(--muted);
-      cursor:pointer;
-      user-select:none;
+      cursor: pointer;
       white-space: nowrap;
     }
-    .tab.active{
+
+    .tab.active {
       color: #fff;
       border-color: transparent;
       background: linear-gradient(135deg, var(--blue), var(--pink));
     }
 
-    .page{ display:none; }
-    .page.active{ display:block; }
+    .page {
+      display: none;
+    }
 
-    /* Students table -> mobile friendly "cards" */
-    .students{
-      display:flex;
+    .page.active {
+      display: block;
+    }
+
+    /* Column Selector for Quick Score Entry */
+    .col-filter-wrap {
+      margin-bottom: 12px;
+      background: #eff6ff;
+      border: 1px solid rgba(45, 124, 255, 0.18);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .col-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 0;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .col-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill-btn {
+      border: 1px solid rgba(45, 124, 255, 0.2);
+      background: #fff;
+      color: #1e3a8a;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pill-btn.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    /* Student Cards */
+    .students {
+      display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .student-card{
-      border: 1px solid rgba(15,23,42,0.10);
+
+    .student-card {
+      border: 1px solid rgba(15, 23, 42, 0.10);
       border-radius: 16px;
       background: #fff;
-      overflow:hidden;
-    }
-    .student-top{
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 10px 8px;
-      border-bottom: 1px solid rgba(15,23,42,0.08);
-      background: linear-gradient(180deg, rgba(45,124,255,0.06), rgba(255,77,166,0.04));
-    }
-    .student-top .idx{
-      font-weight: 900;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 6px 10px;
-      border: 1px solid rgba(15,23,42,0.10);
-      border-radius: 999px;
-      background: #fff;
-    }
-    .student-top .total{
-      font-weight: 900;
-      color: #0b3a92;
-      font-size: 13px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(45,124,255,0.10);
-      border: 1px solid rgba(45,124,255,0.18);
-      min-width: 90px;
-      text-align:center;
-      direction:ltr;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     }
 
-    .student-body{
-      padding: 10px;
-      display:flex;
+    .student-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .student-top .st-name {
+      font-weight: 900;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .student-top .total {
+      font-weight: 900;
+      color: #0b3a92;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(45, 124, 255, 0.10);
+      direction: ltr;
+    }
+
+    .student-body {
+      padding: 12px;
+      display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .grid2{
-      display:grid;
+    .grid-scores {
+      display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
-    .grid2 .w2{ grid-column: 1 / -1; }
 
-    .num{
-      direction:ltr;
-      unicode-bidi: plaintext;
+    .grid-scores.single-col {
+      grid-template-columns: 1fr;
+    }
+
+    .score-input-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .score-input-box.highlight {
+      background: #f0fdf4;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1.5px solid #4ade80;
+    }
+
+    .num {
+      direction: ltr;
       text-align: center;
+      font-weight: 800;
+      font-size: 16px;
     }
 
-    .score-hint{
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 6px;
+    .single-mode-input {
+      font-size: 22px !important;
+      height: 52px;
+      text-align: center;
+      font-weight: 900;
+      color: #1e40af;
+      border: 2px solid var(--blue) !important;
     }
 
-    .bottom-bar{
+    .bottom-bar {
       position: fixed;
-      left:0; right:0; bottom:0;
-      background: rgba(255,255,255,0.84);
-      backdrop-filter: blur(10px);
-      border-top: 1px solid rgba(15,23,42,0.10);
-      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(15, 23, 42, 0.10);
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
       z-index: 50;
     }
-    .bottom-actions{
+
+    .bottom-actions {
       max-width: 980px;
       margin: 0 auto;
-      display:grid;
+      display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-    }
-
-    /* Desktop enhancements */
-    @media (min-width: 860px){
-      .app{ padding-bottom: 18px; }
-      .brand h1{ font-size: 18px; }
-      .bottom-bar{ position: static; background: transparent; border-top: 0; padding:0; backdrop-filter:none; }
-      .bottom-actions{ grid-template-columns: 1fr 1fr 1fr 1fr; margin-top: 12px; }
-      .grid2{ grid-template-columns: repeat(4, 1fr); }
-      .grid2 .w2{ grid-column: span 2; }
     }
 
     /* Toast */
-    .toast{
+    .toast {
       position: fixed;
-      left: 12px; right: 12px;
+      left: 12px;
+      right: 12px;
       bottom: calc(70px + env(safe-area-inset-bottom));
-      display:none;
-      justify-content:center;
+      display: none;
+      justify-content: center;
       z-index: 70;
     }
-    .toast > div{
+
+    .toast>div {
       width: min(980px, 100%);
-      background: #fff;
-      border: 1px solid rgba(15,23,42,0.14);
-      box-shadow: var(--shadow);
-      border-radius: 16px;
-      padding: 10px 12px;
-      display:flex;
-      align-items:center;
+      background: #1e293b;
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 10px;
       font-size: 13px;
     }
-    .toast .msg{ color: var(--text); line-height: 1.6; }
-    .toast .x{
-      width: 44px;
-      height: 40px;
-      border-radius: 12px;
-      border: 1px solid rgba(15,23,42,0.12);
-      background: #fff;
-      cursor:pointer;
-      font-weight: 900;
-    }
 
-    dialog{
+    .toast .x {
+      background: transparent;
       border: 0;
-      border-radius: 18px;
-      padding: 0;
-      width: min(720px, calc(100% - 22px));
-      box-shadow: 0 20px 60px rgba(15,23,42,0.18);
-    }
-    dialog::backdrop{ background: rgba(15,23,42,0.40); backdrop-filter: blur(2px); }
-    .modal{
-      background: #fff;
-      border-radius: 18px;
-      overflow:hidden;
-      border: 1px solid rgba(15,23,42,0.10);
-    }
-    .modal .mhd{
-      padding: 12px;
-      border-bottom: 1px solid rgba(15,23,42,0.10);
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .modal .mhd h3{ margin:0; font-size: 14px; font-weight: 900; }
-    .modal .mbd{ padding: 12px; }
-    .modal .mft{
-      padding: 12px;
-      border-top: 1px solid rgba(15,23,42,0.10);
-      display:flex;
-      gap: 10px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
     }
 
-    /* Export stage */
-    .export-stage{
+    /* Export Stage */
+    .export-stage {
       position: fixed;
       left: -99999px;
       top: 0;
-      width: 900px;
+      width: 950px;
       background: #ffffff;
       color: #111827;
       direction: rtl;
-      padding: 18px 18px 14px;
+      padding: 20px;
       font-family: var(--font);
     }
-    .export-title{
-      text-align:center;
+
+    .export-title {
+      text-align: center;
       font-weight: 900;
       font-size: 18px;
-      margin: 2px 0 10px;
+      margin-bottom: 12px;
     }
-    .export-meta{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px 16px;
-      font-size: 12.5px;
-      margin-bottom: 10px;
+
+    .export-meta {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      font-size: 12px;
+      margin-bottom: 12px;
     }
-    .export-meta .item{
+
+    .export-meta .item {
       border: 1px solid #e5e7eb;
       padding: 8px 10px;
-      border-radius: 10px;
+      border-radius: 8px;
       background: #f9fafb;
     }
-    .export-meta .lbl{ color: #374151; font-weight: 900; margin-inline-end: 6px; }
-    .export-table{
+
+    .export-table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed;
       font-size: 11.5px;
     }
-    .export-table th, .export-table td{
+
+    .export-table th,
+    .export-table td {
       border: 1px solid #d1d5db;
       padding: 6px 4px;
       text-align: center;
-      vertical-align: middle;
-      word-wrap: break-word;
     }
-    .export-table th{
+
+    .export-table th {
       background: #eff6ff;
       font-weight: 900;
-      font-size: 11px;
     }
-    .export-table td.name{ text-align: right; padding-inline: 6px; }
+
+    .export-table td.name {
+      text-align: right;
+      padding-inline: 6px;
+    }
+
+    @media (min-width: 768px) {
+      .bottom-bar {
+        position: static;
+        background: transparent;
+        border: 0;
+        padding: 0;
+      }
+
+      .grid-scores {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* پرده شفاف/تیره پشت */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(2px);
+      z-index: 99;
+    }
+
+    /* باکس مودال وسط صفحه */
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 90%;
+      max-width: 350px;
+    }
+
+.dropdown-select {
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  border-radius: 20px;
+  border: 1px solid #cbd5e1;
+  background-color: #fff;
+  color: #334155;
+  cursor: pointer;
+  outline: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.dropdown-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
   </style>
 </head>
+
 <body>
   <div class="app">
     <header>
       <div class="brand">
-        <h1>فرم فعالیت کلاسی</h1>
+        <h1>فعالیت کلاسی</h1>
         <p class="sub" id="headSub"></p>
       </div>
-      <div class="pill" title="وضعیت ذخیره">
+      <div class="pill">
         <span class="dot"></span>
         <span id="saveStateText">ذخیره خودکار</span>
       </div>
@@ -441,10 +562,10 @@
       <button class="tab active" data-page="page-classes" type="button">کلاس‌ها</button>
       <button class="tab" data-page="page-students" type="button">زبان‌آموزان</button>
       <button class="tab" data-page="page-export" type="button">خروجی</button>
-      <button class="tab" data-page="page-help" type="button">آموزش</button>
     </nav>
+    <!-- ======================================================== -->
+    <!-- #region Page: Classes -->
 
-    <!-- Page: Classes -->
     <section class="page active" id="page-classes">
       <div class="card">
         <div class="hd">
@@ -454,19 +575,32 @@
         <div class="bd">
           <div class="row">
             <div class="w100">
-              <label for="classSelect">انتخاب کلاس</label>
+              <label>انتخاب کلاس</label>
               <select id="classSelect"></select>
             </div>
-            <button class="btn primary" id="btnAddClass" type="button">افزودن کلاس</button>
+            <button class="btn primary" id="btnAddClass" type="button">کلاس جدید</button>
             <button class="btn ghost" id="btnRenameClass" type="button">تغییر نام</button>
             <button class="btn pink" id="btnDeleteClass" type="button">حذف</button>
           </div>
 
-          <div style="height:10px;"></div>
+          <div style="height:12px;"></div>
+
+          <!-- #region Modal Add Class -->
+          <div id="modalOverlay" class="overlay" style="display:none;"></div>
+
+          <div id="addClassModal" class="modal" style="display:none;">
+            <header>
+              <h2>اضافه کردن کلاس جدید</h2>
+            </header>
+            <input type="text" id="modalClassNameInput" placeholder="نام کلاس...">
+            <button type="button" id="btnSubmitNewClass">ثبت کلاس</button>
+          </div>
+          <!-- #endregion -->
+
 
           <div class="row">
-            <div class="w100" style="flex: 1 1 180px;">
-              <label for="daySelect">روز هفته</label>
+            <div>
+              <label>روز هفته</label>
               <select id="daySelect">
                 <option value="">انتخاب روز...</option>
                 <option value="شنبه">شنبه</option>
@@ -479,146 +613,124 @@
               </select>
             </div>
             <div class="tiny">
-              <label for="sessionNoInput">جلسه</label>
-              <input id="sessionNoInput" type="text" inputmode="numeric" placeholder="خودکار" autocomplete="off">
+              <label>جلسه</label>
+              <input id="sessionNoInput" type="text" inputmode="numeric">
             </div>
-            <div class="w100" style="flex: 1 1 200px;">
-              <label for="dateInput">تاریخ (شمسی)</label>
-              <input id="dateInput" type="text" placeholder="خودکار" autocomplete="off">
+            <div>
+              <label>تاریخ (شمسی)</label>
+              <input id="dateInput" type="text">
             </div>
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- Page: Students -->
+    <!-- #endregion -->
+    <!-- ======================================================== -->
+
+    <!-- ======================================================== -->
+    <!-- #region Page: Students -->
+
     <section class="page" id="page-students">
+      <div class="col-filter-wrap">
+        <label style="color:#1e3a8a; font-weight:bold; margin-bottom:4px;">🎯 انتخاب بخش نمره‌دهی سریع:</label>
+        <div class="col-pills" id="columnFilterPills">
+          <button type="button" class="pill-btn active" data-col="all">نمایش همه ستون‌ها</button>
+
+          <!-- #region Filter Dropdown -->
+          <div class="filter-dropdown-wrapper">
+            <select id="colFilterSelect" class="dropdown-select">
+              <option value="all">🔍 نمایش همه ستون‌ها</option>
+              <option value="name">ویرایش نام</option>
+              <option value="attendance">حضور (۵)</option>
+              <option value="homework">تکالیف (۱۰)</option>
+              <option value="speaking">مکالمه (۵)</option>
+              <option value="reading">روخوانی (۵)</option>
+              <option value="grammar">گرامر (۵)</option>
+              <option value="dictation">املا/انشا (۵)</option>
+              <option value="discipline">انضباط (۵)</option>
+              <option value="notes">توضیحات</option>
+            </select>
+          </div>
+          <!-- #endregion -->
+
+        </div>
+      </div>
+
       <div class="card">
         <div class="hd">
-          <h2>زبان‌آموزان</h2>
+          <h2>لیست زبان‌آموزان</h2>
           <span id="studentsCount" style="color:var(--muted); font-size:12px; font-weight:900;"></span>
         </div>
         <div class="bd">
           <div class="row">
             <div class="w100">
-              <label for="newStudentName">نام و نام خانوادگی</label>
-              <input id="newStudentName" type="text" placeholder="مثلاً علی رضایی" autocomplete="off">
+              <input id="newStudentName" type="text" placeholder="نام و نام خانوادگی زبان‌آموز..." autocomplete="off">
             </div>
-            <button class="btn primary" id="btnAddStudent" type="button">افزودن</button>
+            <button class="btn primary" id="btnAddStudent" type="button">افزودن نام</button>
           </div>
 
           <div style="height:12px;"></div>
 
-          <div id="studentsEmpty" class="card" style="box-shadow:none; border-radius: 16px; display:none;">
-            <div class="bd" style="padding: 12px; color: var(--muted); font-weight: 700;">
-              هنوز زبان‌آموزی اضافه نشده.
-            </div>
+          <div id="studentsEmpty" style="display:none; text-align:center; padding: 20px; color: var(--muted);">
+            هنوز زبان‌آموزی در این کلاس ثبت نشده است.
           </div>
 
           <div class="students" id="studentsList"></div>
-
-          <div class="score-hint" style="margin-top: 12px;">
-            نمره‌ها: حضور(۵)، تکالیف(۱۰)، مکالمه(۵)، روخوانی(۵)، گرامر(۵)، املا و انشا(۵)، انضباط(۵) — جمع تا ۴۰
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- Page: Export -->
+    <!-- #endregion -->
+    <!-- ======================================================== -->
+
+    <!-- ======================================================== -->
+    <!-- #region Page: Export -->
     <section class="page" id="page-export">
       <div class="card">
         <div class="hd">
-          <h2>خروجی PNG</h2>
-          <span style="color:var(--muted); font-size:12px; font-weight:900;">فرم قابل ارسال</span>
+          <h2>دریافت خروجی</h2>
         </div>
         <div class="bd">
           <div class="row">
-            <button class="btn primary" id="btnExportPng" type="button">گرفتن خروجی PNG</button>
+            <button class="btn primary w100" id="btnExportPng" type="button">گرفتن خروجی PNG (تصویر)</button>
             <button class="btn ghost" id="btnBackup" type="button">پشتیبان JSON</button>
-            <button class="btn ghost" id="btnRestore" type="button">بازیابی JSON</button>
-            <button class="btn pink" id="btnWipe" type="button">پاک‌کردن همه</button>
+            <button class="btn ghost" id="btnRestore" type="button">بازیابی فایل</button>
+            <button class="btn pink" id="btnWipe" type="button">حذف همه داده‌ها</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Page: Help -->
-<section class="page" id="page-help">
-  <div class="card">
-    <div class="hd">
-      <div class="hd-title">
-        <h2>راهنمای استفاده</h2>
-        <span class="badge">آموزش در ۳ مرحله</span>
-      </div>
-      <p class="hd-desc">مراحل زیر را به ترتیب انجام دهید تا خروجی آماده شود.</p>
-    </div>
-
-    <div class="bd">
-      <ol class="steps">
-        <li>
-          <span class="step-num">۱</span>
-          <div class="step-body">
-            <h4>ایجاد و انتخاب کلاس</h4>
-            <p>در صفحه «کلاس‌ها»، کلاس را بسازید یا انتخاب کنید و روز هفته را مشخص نمایید. تاریخ شمسی و شماره جلسه به‌صورت خودکار ثبت می‌شوند.</p>
-          </div>
-        </li>
-        <li>
-          <span class="step-num">۲</span>
-          <div class="step-body">
-            <h4>ثبت زبان‌آموزان و نمرات</h4>
-            <p>در صفحه «زبان‌آموزان»، اسامی و نمرات را وارد کنید؛ جمع نمرات به‌صورت خودکار محاسبه می‌گردد.</p>
-          </div>
-        </li>
-        <li>
-          <span class="step-num">۳</span>
-          <div class="step-body">
-            <h4>دریافت خروجی</h4>
-            <p>به صفحه «خروجی» بروید و روی دکمه «گرفتن خروجی PNG» کلیک کنید.</p>
-          </div>
-        </li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-    <!-- Bottom bar (mobile) -->
-    <div class="bottom-bar" aria-label="عملیات سریع">
+    <div class="bottom-bar">
       <div class="bottom-actions">
-        <button class="btn primary" id="quickStudents" type="button">زبان‌آموزان</button>
+        <button class="btn primary" id="quickStudents" type="button">ثبت نمرات</button>
         <button class="btn pink" id="quickExport" type="button">خروجی</button>
       </div>
     </div>
+    <!-- #endregion -->
+    <!-- ======================================================== -->
+
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toast">
     <div>
-      <div class="msg" id="toastMsg"></div>
-      <button class="x" id="toastX" type="button">×</button>
+      <span id="toastMsg"></span>
+      <button class="x" id="toastX" type="button">✕</button>
     </div>
   </div>
 
-  <!-- Modal -->
-  <dialog id="dlg">
-    <div class="modal">
-      <div class="mhd">
-        <h3 id="dlgTitle">...</h3>
-        <button class="btn ghost" id="dlgClose" type="button" style="min-height:40px; padding:10px 12px;">بستن</button>
-      </div>
-      <div class="mbd" id="dlgBody"></div>
-      <div class="mft" id="dlgFoot"></div>
-    </div>
-  </dialog>
-
-  <input type="file" id="restoreFile" accept="application/json,.json" style="display:none;" />
+  <input type="file" id="restoreFile" accept=".json" style="display:none;" />
   <div class="export-stage" id="exportStage" aria-hidden="true"></div>
+
 
   <script src="./html2canvas.min.js"></script>
 
   <script>
     'use strict';
 
+    // ========================================================
+    // #region Config & DOM Elements
     const STORAGE_KEY = 'offline_class_grades_v3';
     const SCORE_COLS = [
       { key: 'attendance', label: 'حضور و تأخیر', max: 5 },
@@ -631,97 +743,111 @@
     ];
     const TOTAL_MAX = 40;
 
-    const $ = (id) => document.getElementById(id);
+    let activeFilterCol = 'all';
 
+    const $ = (id) => document.getElementById(id);
     const el = {
       headSub: $('headSub'),
       saveStateText: $('saveStateText'),
-
       tabs: Array.from(document.querySelectorAll('.tab')),
       pages: Array.from(document.querySelectorAll('.page')),
-
       classSelect: $('classSelect'),
       btnAddClass: $('btnAddClass'),
       btnRenameClass: $('btnRenameClass'),
       btnDeleteClass: $('btnDeleteClass'),
       classesCount: $('classesCount'),
-
       daySelect: $('daySelect'),
       sessionNoInput: $('sessionNoInput'),
       dateInput: $('dateInput'),
-
       studentsCount: $('studentsCount'),
       newStudentName: $('newStudentName'),
       btnAddStudent: $('btnAddStudent'),
       studentsEmpty: $('studentsEmpty'),
       studentsList: $('studentsList'),
-
       btnExportPng: $('btnExportPng'),
       btnBackup: $('btnBackup'),
       btnRestore: $('btnRestore'),
       btnWipe: $('btnWipe'),
-
       quickStudents: $('quickStudents'),
       quickExport: $('quickExport'),
-
       toast: $('toast'),
       toastMsg: $('toastMsg'),
       toastX: $('toastX'),
-
-      dlg: $('dlg'),
-      dlgTitle: $('dlgTitle'),
-      dlgBody: $('dlgBody'),
-      dlgFoot: $('dlgFoot'),
-      dlgClose: $('dlgClose'),
-
       restoreFile: $('restoreFile'),
-      exportStage: $('exportStage')
+      exportStage: $('exportStage'),
+      colFilterSelect: $('colFilterSelect'),
+      modalOverlay: $('modalOverlay'),
+      addClassModal: $('addClassModal'),
+      modalClassNameInput: $('modalClassNameInput'),
+      btnSubmitNewClass: $('btnSubmitNewClass'),
+
     };
 
     let state = null;
+    // #endregion
+    // ========================================================
 
-    function uid(){
+    // ========================================================
+    // #region Helpers & Utilities
+    function uid() {
       return 'id_' + Math.random().toString(16).slice(2) + '_' + Date.now().toString(16);
     }
 
-    function safeText(v){
-      return (v === null || v === undefined) ? '' : String(v);
-    }
-
-    function normalizeDecimalString(s){
+    // تبدیل ارقام و ممیزهای فارسی و عربی به عدد استاندارد
+    function normalizeNumber(str) {
+      if (!str) return '';
       const map = {
-        '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9',
-        '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
-        '٫':'.','،':'.',',':'.'
+        '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4', '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9',
+        '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4', '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+        '٫': '.', '،': '.', ',': '.'
       };
-      let out = '';
-      for (const ch of String(s ?? '')) out += (map[ch] ?? ch);
-      return out.trim();
+      return String(str).replace(/[۰-۹٠-٩٫،,]/g, ch => map[ch] || ch).trim();
     }
 
-    function parseScore(raw, max){
-      const txt = normalizeDecimalString(raw);
-      if (txt === '') return { value: 0, valid: true, empty: true };
-      const safe = txt.startsWith('.') ? '0' + txt : txt;
-      const n = Number(safe);
-      if (!Number.isFinite(n)) return { value: 0, valid: false, empty: false };
-      if (n < 0) return { value: 0, valid: false, empty: false };
-      if (n > max) return { value: max, valid: false, empty: false };
-      const fixed = Math.round(n * 100) / 100;
-      return { value: fixed, valid: true, empty: false };
-    }
-
-    function computeTotal(scores){
+    function computeTotal(scores) {
       let sum = 0;
-      for (const c of SCORE_COLS){
+      for (const c of SCORE_COLS) {
         const v = Number(scores?.[c.key]);
         if (Number.isFinite(v)) sum += v;
       }
-      sum = Math.min(TOTAL_MAX, Math.max(0, Math.round(sum * 100) / 100));
-      return sum;
+      return Math.min(TOTAL_MAX, Math.max(0, Math.round(sum * 100) / 100));
     }
 
-    function makeFreshState(){
+    function jalaliToday() {
+      try {
+        return new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+          year: 'numeric', month: '2-digit', day: '2-digit'
+        }).format(new Date());
+      } catch (err) { return ''; }
+    }
+
+    function toast(msg) {
+      el.toastMsg.textContent = msg;
+      el.toast.style.display = 'flex';
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => { el.toast.style.display = 'none'; }, 3000);
+    }
+
+    // باز کردن مودال
+    function openAddClassModal() {
+      el.modalOverlay.style.display = 'block';
+      el.addClassModal.style.display = 'flex';
+      el.modalClassNameInput.value = ''; // خالی کردن اینپوت
+      el.modalClassNameInput.focus();     // فوکوس خودکار روی اینپوت
+    }
+
+    // بستن مودال
+    function closeAddClassModal() {
+      el.modalOverlay.style.display = 'none';
+      el.addClassModal.style.display = 'none';
+    }
+
+    // #endregion
+    // ========================================================
+
+    // ========================================================
+    // #region State Management
+    function makeFreshState() {
       const firstId = uid();
       return {
         version: 3,
@@ -729,421 +855,215 @@
         classes: [{
           id: firstId,
           name: 'کلاس ۱',
-          session: {
-            dayOfWeek: '',
-            sessionNo: '',
-            dateJalali: ''
-          },
+          session: { dayOfWeek: '', sessionNo: '1', dateJalali: jalaliToday() },
           students: []
         }]
       };
     }
 
-    function sanitizeState(obj){
-      const out = { version: 3, selectedClassId: null, classes: [] };
-      if (obj && typeof obj === 'object'){
-        if (typeof obj.selectedClassId === 'string') out.selectedClassId = obj.selectedClassId;
-        if (Array.isArray(obj.classes)) out.classes = obj.classes.map(sanitizeClass).filter(Boolean);
-      }
-      if (!out.classes.length){
-        const fresh = makeFreshState();
-        out.classes = fresh.classes;
-        out.selectedClassId = fresh.selectedClassId;
-      }
-      if (!out.selectedClassId || !out.classes.some(c => c.id === out.selectedClassId)){
-        out.selectedClassId = out.classes[0].id;
-      }
-      return out;
+    function sanitizeState(obj) {
+      if (!obj || !Array.isArray(obj.classes) || !obj.classes.length) return makeFreshState();
+      return obj;
     }
 
-    function sanitizeClass(c){
-      if (!c || typeof c !== 'object') return null;
-      const id = (typeof c.id === 'string' && c.id) ? c.id : uid();
-      const name = (typeof c.name === 'string') ? c.name : 'کلاس';
-      const session = (c.session && typeof c.session === 'object') ? c.session : {};
-      const students = Array.isArray(c.students) ? c.students : [];
-
-      return {
-        id,
-        name,
-        session: {
-          dayOfWeek: typeof session.dayOfWeek === 'string' ? session.dayOfWeek : '',
-          sessionNo: typeof session.sessionNo === 'string' ? session.sessionNo : '',
-          dateJalali: typeof session.dateJalali === 'string' ? session.dateJalali : ''
-        },
-        students: students.map(sanitizeStudent).filter(Boolean)
-      };
-    }
-
-    function sanitizeStudent(s){
-      if (!s || typeof s !== 'object') return null;
-      const id = (typeof s.id === 'string' && s.id) ? s.id : uid();
-      const fullName = typeof s.fullName === 'string' ? s.fullName : '';
-
-      const scoresRaw = (s.scores && typeof s.scores === 'object') ? s.scores : {};
-      const scores = {};
-      for (const c of SCORE_COLS){
-        const v = Number(scoresRaw[c.key]);
-        scores[c.key] = Number.isFinite(v) ? Math.min(c.max, Math.max(0, Math.round(v*100)/100)) : 0;
-      }
-
-      const extras = (s.extras && typeof s.extras === 'object') ? s.extras : {};
-      return {
-        id,
-        fullName,
-        scores,
-        extras: {
-          notes: typeof extras.notes === 'string' ? extras.notes : ''
-        }
-      };
-    }
-
-    function loadState(){
-      try{
+    function loadState() {
+      try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw){
-          state = makeFreshState();
-          saveState();
-          return;
-        }
-        state = sanitizeState(JSON.parse(raw));
-      }catch(err){
-        console.error(err);
+        state = raw ? sanitizeState(JSON.parse(raw)) : makeFreshState();
+      } catch (err) {
         state = makeFreshState();
-        saveState();
-        toast('داده‌های قبلی قابل خواندن نبود. ساختار جدید ساخته شد.');
       }
+      saveState();
     }
 
-    function saveState(){
-      try{
+    function saveState() {
+      try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         el.saveStateText.textContent = 'ذخیره خودکار';
-      }catch(err){
-        console.error(err);
+      } catch (err) {
         el.saveStateText.textContent = 'خطا در ذخیره';
-        toast('ذخیره‌سازی انجام نشد.');
       }
     }
 
-    function getSelectedClass(){
-      const id = state.selectedClassId;
-      let cls = state.classes.find(c => c.id === id) || null;
-      if (!cls && state.classes.length){
+    function getSelectedClass() {
+      let cls = state.classes.find(c => c.id === state.selectedClassId);
+      if (!cls && state.classes.length) {
         state.selectedClassId = state.classes[0].id;
         cls = state.classes[0];
       }
       return cls;
     }
+    // #endregion
+    // ========================================================
 
-    function jalaliToday(){
-      try{
-        const fmt = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
-          year: 'numeric', month: '2-digit', day: '2-digit'
-        });
-        return fmt.format(new Date());
-      }catch(err){
-        return '';
-      }
-    }
-
-    function updateHeaderSub(){
+    // ========================================================
+    // #region UI Rendering
+    function updateHeaderSub() {
       const cls = getSelectedClass();
-      const name = cls?.name || '';
-      const day = cls?.session?.dayOfWeek || '';
-      const date = cls?.session?.dateJalali || '';
-      const sessionNo = cls?.session?.sessionNo || '';
-      const parts = [];
-      if (name) parts.push(name);
-      if (day) parts.push(day);
-      if (sessionNo) parts.push('جلسه ' + sessionNo);
-      if (date) parts.push(date);
+      if (!cls) return;
+      const parts = [
+        cls.name,
+        cls.session?.dayOfWeek,
+        cls.session?.sessionNo ? `جلسه ${cls.session.sessionNo}` : '',
+        cls.session?.dateJalali
+      ].filter(Boolean);
       el.headSub.textContent = parts.join(' • ');
     }
 
-    function showPage(pageId){
+    function showPage(pageId) {
       el.pages.forEach(p => p.classList.toggle('active', p.id === pageId));
       el.tabs.forEach(t => t.classList.toggle('active', t.dataset.page === pageId));
     }
 
-    function renderClasses(){
+    function renderClasses() {
       el.classesCount.textContent = state.classes.length + ' کلاس';
       el.classSelect.innerHTML = '';
       state.classes.forEach((c, i) => {
         const opt = document.createElement('option');
         opt.value = c.id;
-        opt.textContent = (i+1) + ' — ' + (c.name || 'کلاس');
+        opt.textContent = `${i + 1} — ${c.name || 'کلاس'}`;
         if (c.id === state.selectedClassId) opt.selected = true;
         el.classSelect.appendChild(opt);
       });
 
       const cls = getSelectedClass();
       if (!cls) return;
-
-      if (!cls.session.sessionNo) cls.session.sessionNo = '1';
-      if (!cls.session.dateJalali) cls.session.dateJalali = jalaliToday();
-
+      if (!cls.session) cls.session = {};
       el.daySelect.value = cls.session.dayOfWeek || '';
       el.sessionNoInput.value = cls.session.sessionNo || '';
       el.dateInput.value = cls.session.dateJalali || '';
-
-      saveState();
       updateHeaderSub();
     }
 
-    function renderStudents(){
+    function renderStudents() {
       const cls = getSelectedClass();
       if (!cls) return;
 
       const students = cls.students || [];
       el.studentsCount.textContent = students.length + ' نفر';
       el.studentsEmpty.style.display = students.length ? 'none' : 'block';
-
       el.studentsList.innerHTML = '';
+
       students.forEach((st, idx) => {
         const card = document.createElement('div');
         card.className = 'student-card';
 
         const top = document.createElement('div');
         top.className = 'student-top';
-
-        const left = document.createElement('div');
-        left.style.display = 'flex';
-        left.style.alignItems = 'center';
-        left.style.gap = '8px';
-
-        const badge = document.createElement('div');
-        badge.className = 'idx';
-        badge.textContent = 'ردیف ' + String(idx + 1);
-
-        left.appendChild(badge);
-
-        const total = document.createElement('div');
-        total.className = 'total';
-        total.textContent = String(computeTotal(st.scores)) + ' / ۴۰';
-
-        top.appendChild(left);
-        top.appendChild(total);
+        top.innerHTML = `
+          <div>
+            <span style="color:var(--muted); font-size:12px; margin-left:4px;">#${idx + 1}</span>
+            <span class="st-name">${st.fullName || 'بدون نام'}</span>
+          </div>
+          <div class="total">${computeTotal(st.scores)} / ۴۰</div>
+        `;
+        card.appendChild(top);
 
         const body = document.createElement('div');
         body.className = 'student-body';
 
-        const nameWrap = document.createElement('div');
-        const nameLbl = document.createElement('label');
-        nameLbl.textContent = 'نام و نام خانوادگی';
-        const nameInp = document.createElement('input');
-        nameInp.type = 'text';
-        nameInp.value = st.fullName || '';
-        nameInp.placeholder = 'نام...';
-        nameInp.autocomplete = 'off';
-        nameInp.addEventListener('input', () => {
-          st.fullName = nameInp.value;
-          saveState();
-        });
-        nameWrap.appendChild(nameLbl);
-        nameWrap.appendChild(nameInp);
-        body.appendChild(nameWrap);
-
         const grid = document.createElement('div');
-        grid.className = 'grid2';
+        grid.className = 'grid-scores' + (activeFilterCol !== 'all' ? ' single-col' : '');
 
-        for (const c of SCORE_COLS){
-          const w = document.createElement('div');
-          const l = document.createElement('label');
-          l.textContent = c.label + ' (' + c.max + ')';
+        if (activeFilterCol === 'all' || activeFilterCol === 'name') {
+          const nameWrap = document.createElement('div');
+          nameWrap.style.gridColumn = '1 / -1';
+          nameWrap.innerHTML = `<label>ویرایش نام زبان‌آموز:</label>`;
+          const nameInp = document.createElement('input');
+          nameInp.value = st.fullName || '';
+          nameInp.oninput = (e) => {
+            st.fullName = e.target.value;
+            top.querySelector('.st-name').textContent = st.fullName || 'بدون نام';
+            saveState();
+          };
+          nameWrap.appendChild(nameInp);
+          grid.appendChild(nameWrap);
+        }
+
+        SCORE_COLS.forEach(c => {
+          if (activeFilterCol !== 'all' && activeFilterCol !== c.key) return;
+
+          const isSingle = (activeFilterCol === c.key);
+          const box = document.createElement('div');
+          box.className = 'score-input-box' + (isSingle ? ' highlight' : '');
+
+          box.innerHTML = `<label style="font-weight:800;">${c.label} (حداکثر ${c.max}):</label>`;
           const inp = document.createElement('input');
           inp.type = 'text';
           inp.inputMode = 'decimal';
-          inp.className = 'num';
-          const cur = Number(st.scores?.[c.key]);
-          inp.value = (Number.isFinite(cur) && cur !== 0) ? String(cur) : '';
+          inp.className = 'num' + (isSingle ? ' single-mode-input' : '');
           inp.placeholder = '۰';
-          inp.addEventListener('input', () => {
-            const r = parseScore(inp.value, c.max);
-            st.scores[c.key] = r.value;
-            inp.style.borderColor = r.valid ? 'rgba(15,23,42,0.14)' : 'rgba(255,77,166,0.70)';
-            total.textContent = String(computeTotal(st.scores)) + ' / ۴۰';
+          inp.value = (st.scores[c.key] !== undefined && st.scores[c.key] !== 0) ? st.scores[c.key] : '';
+
+          inp.oninput = (e) => {
+            const raw = normalizeNumber(e.target.value);
+            if (raw === '') {
+              st.scores[c.key] = 0;
+            } else {
+              let val = parseFloat(raw);
+              if (!isNaN(val)) {
+                if (val > c.max) val = c.max;
+                if (val < 0) val = 0;
+                st.scores[c.key] = val;
+              }
+            }
+            const totalEl = card.querySelector('.total');
+            if (totalEl) totalEl.textContent = `${computeTotal(st.scores)} / ۴۰`;
             saveState();
-          });
-          inp.addEventListener('blur', () => {
-            const v = Number(st.scores[c.key]);
-            inp.value = (Number.isFinite(v) && v !== 0) ? String(v) : '';
-            inp.style.borderColor = 'rgba(15,23,42,0.14)';
-          });
-          w.appendChild(l);
-          w.appendChild(inp);
-          grid.appendChild(w);
+          };
+
+          box.appendChild(inp);
+          grid.appendChild(box);
+        });
+
+        if (activeFilterCol === 'all' || activeFilterCol === 'notes') {
+          const notesBox = document.createElement('div');
+          if (activeFilterCol === 'all') notesBox.style.gridColumn = '1 / -1';
+          notesBox.innerHTML = `<label>توضیحات و یادداشت:</label>`;
+          const nInp = document.createElement('input');
+          nInp.value = st.extras?.notes || '';
+          nInp.placeholder = 'اختیاری...';
+          nInp.oninput = (e) => {
+            if (!st.extras) st.extras = {};
+            st.extras.notes = e.target.value;
+            saveState();
+          };
+          notesBox.appendChild(nInp);
+          grid.appendChild(notesBox);
         }
 
-        const notes = document.createElement('div');
-        notes.className = 'w2';
-        const notesL = document.createElement('label');
-        notesL.textContent = 'توضیحات';
-        const notesI = document.createElement('input');
-        notesI.type = 'text';
-        notesI.value = st.extras?.notes || '';
-        notesI.placeholder = 'اختیاری';
-        notesI.addEventListener('input', () => { st.extras.notes = notesI.value; saveState(); });
-        notes.appendChild(notesL);
-        notes.appendChild(notesI);
-
-        grid.appendChild(notes);
         body.appendChild(grid);
 
-        const act = document.createElement('div');
-        act.className = 'row';
-        act.style.marginTop = '2px';
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'btn pink';
+        delBtn.style.cssText = 'padding:6px 12px; min-height:36px; font-size:12px; margin-top:6px; align-self:flex-start;';
+        delBtn.textContent = 'حذف زبان‌آموز';
+        delBtn.onclick = () => confirmDeleteStudent(st.id);
+        body.appendChild(delBtn);
 
-        const del = document.createElement('button');
-        del.type = 'button';
-        del.className = 'btn pink';
-        del.textContent = 'حذف زبان‌آموز';
-        del.addEventListener('click', () => confirmDeleteStudent(st.id));
-        act.appendChild(del);
-
-        body.appendChild(act);
-        card.appendChild(top);
         card.appendChild(body);
-
         el.studentsList.appendChild(card);
       });
 
       updateHeaderSub();
     }
 
-    function renderAll(){
+    function renderAll() {
       renderClasses();
       renderStudents();
     }
+    // #endregion
+    // ========================================================
 
-    function openDlg(title, bodyNode, footButtons){
-      el.dlgTitle.textContent = safeText(title);
-      el.dlgBody.innerHTML = '';
-      el.dlgFoot.innerHTML = '';
-      if (bodyNode) el.dlgBody.appendChild(bodyNode);
-      if (footButtons && footButtons.length){
-        footButtons.forEach(b => el.dlgFoot.appendChild(b));
-      }
-      try{ el.dlg.showModal(); }catch(_e){}
-    }
-
-    function closeDlg(){
-      try{ el.dlg.close(); }catch(_e){}
-      el.dlgBody.innerHTML = '';
-      el.dlgFoot.innerHTML = '';
-    }
-
-    function mkBtn(text, cls, onClick){
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'btn ' + cls;
-      b.textContent = text;
-      b.addEventListener('click', onClick);
-      return b;
-    }
-
-    function toast(msg){
-      el.toastMsg.textContent = safeText(msg);
-      el.toast.style.display = 'flex';
-      window.clearTimeout(toast._t);
-      toast._t = window.setTimeout(()=>{ el.toast.style.display='none'; }, 4200);
-    }
-
-    function addClassFlow(){
-      const wrap = document.createElement('div');
-      const lab = document.createElement('label');
-      lab.textContent = 'نام کلاس';
-      const inp = document.createElement('input');
-      inp.type = 'text';
-      inp.placeholder = 'مثلاً A2';
-      inp.autocomplete = 'off';
-      wrap.appendChild(lab);
-      wrap.appendChild(inp);
-
-      const ok = mkBtn('ایجاد', 'primary', () => {
-        const name = (inp.value || '').trim();
-        const id = uid();
-        state.classes.push({
-          id,
-          name: name || ('کلاس ' + (state.classes.length + 1)),
-          session: {
-            dayOfWeek: '',
-            sessionNo: '',
-            dateJalali: ''
-          },
-          students: []
-        });
-        state.selectedClassId = id;
-        saveState();
-        renderAll();
-        closeDlg();
-        toast('کلاس ساخته شد.');
-      });
-      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
-      openDlg('افزودن کلاس', wrap, [cancel, ok]);
-      inp.focus();
-    }
-
-    function renameClassFlow(){
-      const cls = getSelectedClass();
-      if (!cls) return;
-
-      const wrap = document.createElement('div');
-      const lab = document.createElement('label');
-      lab.textContent = 'نام جدید کلاس';
-      const inp = document.createElement('input');
-      inp.type = 'text';
-      inp.value = cls.name || '';
-      inp.autocomplete = 'off';
-      wrap.appendChild(lab);
-      wrap.appendChild(inp);
-
-      const ok = mkBtn('ذخیره', 'primary', () => {
-        const name = (inp.value || '').trim();
-        cls.name = name || cls.name || 'کلاس';
-        saveState();
-        renderAll();
-        closeDlg();
-        toast('نام کلاس تغییر کرد.');
-      });
-      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
-      openDlg('تغییر نام', wrap, [cancel, ok]);
-      inp.focus();
-      inp.select();
-    }
-
-    function deleteClassFlow(){
-      if (state.classes.length <= 1){
-        toast('حداقل باید یک کلاس وجود داشته باشه.');
-        return;
-      }
-      const cls = getSelectedClass();
-      if (!cls) return;
-
-      const wrap = document.createElement('div');
-      wrap.style.lineHeight = '1.9';
-      wrap.textContent = 'کلاس حذف بشه؟ (همه نمراتش هم پاک می‌شه)';
-
-      const ok = mkBtn('حذف', 'pink', () => {
-        const idx = state.classes.findIndex(c => c.id === cls.id);
-        if (idx >= 0) state.classes.splice(idx, 1);
-        state.selectedClassId = state.classes[0]?.id || null;
-        saveState();
-        renderAll();
-        closeDlg();
-        toast('کلاس حذف شد.');
-      });
-      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
-      openDlg('تأیید حذف', wrap, [cancel, ok]);
-    }
-
-    function addStudent(){
+    // ========================================================
+    // #region Student Actions
+    function addStudent() {
       const cls = getSelectedClass();
       if (!cls) return;
       const name = (el.newStudentName.value || '').trim();
-      if (!name){
-        toast('اسم رو وارد کن.');
-        el.newStudentName.focus();
+      if (!name) {
+        toast('لطفاً نام زبان‌آموز را وارد کنید.');
         return;
       }
       const scores = {};
@@ -1153,311 +1073,269 @@
         id: uid(),
         fullName: name,
         scores,
-        extras: { notes:'' }
+        extras: { notes: '' }
       });
 
       el.newStudentName.value = '';
-      if (!cls.session.sessionNo) cls.session.sessionNo = '1';
-      if (!cls.session.dateJalali) cls.session.dateJalali = jalaliToday();
-
       saveState();
       renderStudents();
-      toast('اضافه شد.');
+      toast('زبان‌آموز اضافه شد.');
     }
 
-    function confirmDeleteStudent(studentId){
+    function confirmDeleteStudent(id) {
       const cls = getSelectedClass();
-      if (!cls) return;
-      const st = cls.students.find(s => s.id === studentId);
-      if (!st) return;
-
-      const wrap = document.createElement('div');
-      wrap.style.lineHeight = '1.9';
-      wrap.textContent = 'حذف زبان‌آموز: ' + (st.fullName || 'بدون نام') + ' ؟';
-
-      const ok = mkBtn('حذف', 'pink', () => {
-        const idx = cls.students.findIndex(s => s.id === studentId);
-        if (idx >= 0) cls.students.splice(idx, 1);
-        saveState();
-        renderStudents();
-        closeDlg();
-        toast('حذف شد.');
-      });
-      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
-      openDlg('تأیید حذف', wrap, [cancel, ok]);
+      if (!confirm('آیا از حذف این زبان‌آموز مطمئن هستید؟')) return;
+      cls.students = cls.students.filter(s => s.id !== id);
+      saveState();
+      renderStudents();
+      toast('زبان‌آموز حذف شد.');
     }
+    // #endregion
+    // ========================================================
 
-    function buildExportDom(cls){
+    // ========================================================
+    // #region Export Handlers
+    function buildExportDom(cls) {
       const stage = el.exportStage;
       stage.innerHTML = '';
 
       const title = document.createElement('div');
       title.className = 'export-title';
-      title.textContent = 'فعالیت کلاسی زبان‌آموزان';
+      title.textContent = 'جدول ارزشیابی و فعالیت کلاسی';
       stage.appendChild(title);
 
       const meta = document.createElement('div');
       meta.className = 'export-meta';
-
-      const items = [
-        ['نام کلاس', cls.name || ''],
-        ['روز هفته', cls.session.dayOfWeek || ''],
-        ['جلسه', cls.session.sessionNo || ''],
-        ['تاریخ (شمسی)', cls.session.dateJalali || '']
-      ];
-
-      for (const [k,v] of items){
-        const it = document.createElement('div');
-        it.className = 'item';
-        const lbl = document.createElement('span');
-        lbl.className = 'lbl';
-        lbl.textContent = k + ':';
-        const val = document.createElement('span');
-        val.textContent = safeText(v);
-        it.appendChild(lbl);
-        it.appendChild(val);
-        meta.appendChild(it);
-      }
-
+      meta.innerHTML = `
+        <div class="item"><b>کلاس:</b> ${cls.name || ''}</div>
+        <div class="item"><b>روز:</b> ${cls.session?.dayOfWeek || ''}</div>
+        <div class="item"><b>جلسه:</b> ${cls.session?.sessionNo || ''}</div>
+        <div class="item"><b>تاریخ:</b> ${cls.session?.dateJalali || ''}</div>
+      `;
       stage.appendChild(meta);
 
       const table = document.createElement('table');
       table.className = 'export-table';
 
-      const thead = document.createElement('thead');
-      const trh = document.createElement('tr');
-      const headers = [
-        'ردیف','نام و نام خانوادگی',
-        'حضور و تأخیر (۵)',
-        'تکالیف (۱۰)',
-        'مکالمه (۵)',
-        'روخوانی (۵)',
-        'گرامر (۵)',
-        'املا و انشا (۵)',
-        'انضباط (۵)',
-        'جمع (۴۰)',
-        'توضیحات'
-      ];
-      headers.forEach(h=>{
-        const th = document.createElement('th');
-        th.textContent = h;
-        trh.appendChild(th);
-      });
-      thead.appendChild(trh);
-      table.appendChild(thead);
+      let headers = ['ردیف', 'نام و نام خانوادگی'];
+      SCORE_COLS.forEach(c => headers.push(`${c.label} (${c.max})`));
+      headers.push('جمع (۴۰)', 'توضیحات');
 
-      const tbody = document.createElement('tbody');
+      let tableHtml = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+
       const students = cls.students || [];
-      const rowsCount = Math.max(25, students.length);
+      const rowCount = Math.max(12, students.length);
 
-      for (let i=0;i<rowsCount;i++){
-        const st = students[i] || null;
-        const tr = document.createElement('tr');
+      for (let i = 0; i < rowCount; i++) {
+        const s = students[i];
+        tableHtml += '<tr>';
+        tableHtml += `<td>${i + 1}</td>`;
+        tableHtml += `<td class="name">${s ? (s.fullName || '') : ''}</td>`;
 
-        const row = [
-          String(i+1),
-          st ? (st.fullName || '') : '',
-          st ? String(st.scores.attendance ?? '') : '',
-          st ? String(st.scores.homework ?? '') : '',
-          st ? String(st.scores.speaking ?? '') : '',
-          st ? String(st.scores.reading ?? '') : '',
-          st ? String(st.scores.grammar ?? '') : '',
-          st ? String(st.scores.dictation ?? '') : '',
-          st ? String(st.scores.discipline ?? '') : '',
-          st ? String(computeTotal(st.scores)) : '',
-          st ? (st.extras.notes || '') : ''
-        ];
-
-        row.forEach((txt, j)=>{
-          const td = document.createElement('td');
-          if (j === 1) td.className = 'name';
-          td.textContent = safeText(txt);
-          tr.appendChild(td);
+        SCORE_COLS.forEach(c => {
+          const val = s ? s.scores[c.key] : '';
+          tableHtml += `<td>${(val !== undefined && val !== 0) ? val : ''}</td>`;
         });
 
-        tbody.appendChild(tr);
+        tableHtml += `<td><b>${s ? computeTotal(s.scores) : ''}</b></td>`;
+        tableHtml += `<td>${s ? (s.extras?.notes || '') : ''}</td>`;
+        tableHtml += '</tr>';
       }
 
-      table.appendChild(tbody);
+      tableHtml += '</tbody>';
+      table.innerHTML = tableHtml;
       stage.appendChild(table);
 
       return stage;
     }
 
-    async function exportPng(){
-      if (typeof window.html2canvas !== 'function'){
-        toast('خطا در لود کتابخانه خروجی.');
-        return;
-      }
+    async function exportPng() {
       const cls = getSelectedClass();
       if (!cls) return;
 
       const target = buildExportDom(cls);
-      const clsName = (cls.name || 'کلاس').replace(/[\\\/:*?"<>|]+/g,'_').trim() || 'کلاس';
-      const sess = (cls.session.sessionNo || '').trim();
-      const fileName = `فعالیت_کلاسی_${clsName}${sess ? '_جلسه_' + sess : ''}.png`;
+      toast('در حال پردازش خروجی...');
 
-      try{
+      try {
         const canvas = await window.html2canvas(target, {
           backgroundColor: '#ffffff',
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          logging: false,
-          windowWidth: target.scrollWidth,
-          windowHeight: target.scrollHeight
+          scale: 2
         });
         const url = canvas.toDataURL('image/png');
         const a = document.createElement('a');
         a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
+        a.download = `فعالیت_کلاس_${cls.name || 'کلاس'}.png`;
         a.click();
-        a.remove();
-        toast('خروجی آماده شد.');
-      }catch(err){
-        console.error(err);
-        toast('خروجی گرفتن ناموفق بود.');
-      }finally{
-        el.exportStage.innerHTML = '';
+        toast('خروجی PNG دانلود شد.');
+      } catch (e) {
+        toast('خطا در گرفتن خروجی تصویر.');
+      } finally {
+        target.innerHTML = '';
       }
     }
+    // #endregion
+    // ========================================================
 
-    function backup(){
-      try{
-        const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json;charset=utf-8'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'backup_class_grades.json';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-        toast('پشتیبان دانلود شد.');
-      }catch(err){
-        console.error(err);
-        toast('پشتیبان‌گیری ناموفق بود.');
-      }
-    }
+    // ========================================================
+    // #region Event Listeners & Init
+    function bindEvents() {
+      el.tabs.forEach(t => t.onclick = () => showPage(t.dataset.page));
+      el.quickStudents.onclick = () => showPage('page-students');
+      el.quickExport.onclick = () => showPage('page-export');
+      el.toastX.onclick = () => el.toast.style.display = 'none';
 
-    function restoreFlow(){
-      el.restoreFile.value = '';
-      el.restoreFile.click();
-    }
+      // تغییر ستون انتخابی از دراپ‌داون
+      el.colFilterSelect.onchange = (e) => {
+        activeFilterCol = e.target.value;
+        renderStudents();
+      };
 
-    async function restoreFromFile(file){
-      if (!file) return;
-      try{
-        const text = await file.text();
-        const parsed = JSON.parse(text);
-        state = sanitizeState(parsed);
-        saveState();
-        renderAll();
-        toast('بازیابی انجام شد.');
-      }catch(err){
-        console.error(err);
-        toast('فایل معتبر نیست.');
-      }
-    }
 
-    function wipeFlow(){
-      const wrap = document.createElement('div');
-      wrap.style.lineHeight = '1.9';
-      wrap.textContent = 'همه داده‌ها پاک بشه؟';
-
-      const ok = mkBtn('پاک‌کردن', 'pink', () => {
-        try{ localStorage.removeItem(STORAGE_KEY); }catch(_e){}
-        state = makeFreshState();
-        saveState();
-        renderAll();
-        closeDlg();
-        toast('پاک شد.');
-      });
-      const cancel = mkBtn('انصراف', 'ghost', () => closeDlg());
-      openDlg('تأیید', wrap, [cancel, ok]);
-    }
-
-    function bind(){
-      el.tabs.forEach(t => {
-        t.addEventListener('click', () => showPage(t.dataset.page));
-      });
-
-      el.quickStudents.addEventListener('click', () => showPage('page-students'));
-      el.quickExport.addEventListener('click', () => showPage('page-export'));
-
-      el.toastX.addEventListener('click', () => el.toast.style.display = 'none');
-      el.dlgClose.addEventListener('click', () => closeDlg());
-
-      el.classSelect.addEventListener('change', () => {
+      // جابجایی بین کلاس‌ها و آپدیت فرم
+      el.classSelect.onchange = () => {
         state.selectedClassId = el.classSelect.value;
         saveState();
         renderAll();
-      });
+      };
 
-      el.btnAddClass.addEventListener('click', addClassFlow);
-      el.btnRenameClass.addEventListener('click', renameClassFlow);
-      el.btnDeleteClass.addEventListener('click', deleteClassFlow);
+      el.btnAddClass.onclick = () => {
+        const name = prompt('نام کلاس جدید:');
+        if (name && name.trim()) {
+          const id = uid();
+          state.classes.push({
+            id,
+            name: name.trim(),
+            session: { dayOfWeek: '', sessionNo: '1', dateJalali: jalaliToday() },
+            students: []
+          });
+          state.selectedClassId = id;
+          saveState();
+          renderAll();
+        }
+      };
 
-      el.daySelect.addEventListener('change', () => {
-        const cls = getSelectedClass(); if (!cls) return;
-        cls.session.dayOfWeek = el.daySelect.value;
+      // ===============================
+      // #region 
+      // ۱. زدن روی دکمه «کلاس جدید» برای باز شدن پنجره
+      el.btnAddClass.onclick = openAddClassModal;
+
+      // ۲. ضربه روی پرده شفاف پشت (Overlay) برای انصراف و خروج
+      el.modalOverlay.onclick = closeAddClassModal;
+
+      // ۳. کلیک روی دکمه «ثبت کلاس» داخل مودال
+      el.btnSubmitNewClass.onclick = handleCreateClass;
+
+      // ۴. زدن کلید Enter داخل اینپوت هم کار ثبت رو انجام بده
+      el.modalClassNameInput.onkeydown = (e) => {
+        if (e.key === 'Enter') handleCreateClass();
+        if (e.key === 'Escape') closeAddClassModal(); // با دکمه Esc هم بسته بشه
+      };
+
+      // منطق ذخیره کلاس جدید
+      function handleCreateClass() {
+        const name = el.modalClassNameInput.value.trim();
+        if (!name) {
+          toast('لطفاً نام کلاس را وارد کنید.');
+          return;
+        }
+
+        const id = uid();
+        state.classes.push({
+          id,
+          name,
+          session: { dayOfWeek: '', sessionNo: '1', dateJalali: jalaliToday() },
+          students: []
+        });
+        state.selectedClassId = id;
+        saveState();
+        renderAll();
+
+        closeAddClassModal(); // بستن پنجره بعد از ثبت
+        toast('کلاس جدید ایجاد شد.');
+      }
+
+      // #endregion 
+      // ===============================
+
+      el.btnDeleteClass.onclick = () => {
+        if (state.classes.length <= 1) return toast('حداقل یک کلاس باید باقی بماند.');
+        if (confirm('آیا این کلاس حذف شود؟ تمام نمرات آن پاک خواهند شد.')) {
+          state.classes = state.classes.filter(c => c.id !== state.selectedClassId);
+          state.selectedClassId = state.classes[0].id;
+          saveState();
+          renderAll();
+        }
+      };
+
+      el.daySelect.onchange = (e) => {
+        const cls = getSelectedClass();
+        if (!cls.session) cls.session = {};
+        cls.session.dayOfWeek = e.target.value;
         saveState();
         updateHeaderSub();
-      });
-
-      el.sessionNoInput.addEventListener('input', () => {
-        const cls = getSelectedClass(); if (!cls) return;
-        cls.session.sessionNo = el.sessionNoInput.value;
+      };
+      el.sessionNoInput.oninput = (e) => {
+        const cls = getSelectedClass();
+        if (!cls.session) cls.session = {};
+        cls.session.sessionNo = e.target.value;
         saveState();
         updateHeaderSub();
-      });
-
-      el.dateInput.addEventListener('input', () => {
-        const cls = getSelectedClass(); if (!cls) return;
-        cls.session.dateJalali = el.dateInput.value;
+      };
+      el.dateInput.oninput = (e) => {
+        const cls = getSelectedClass();
+        if (!cls.session) cls.session = {};
+        cls.session.dateJalali = e.target.value;
         saveState();
         updateHeaderSub();
-      });
+      };
 
-      el.btnAddStudent.addEventListener('click', addStudent);
-      el.newStudentName.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter'){ e.preventDefault(); addStudent(); }
-      });
+      el.btnAddStudent.onclick = addStudent;
+      el.newStudentName.onkeydown = (e) => { if (e.key === 'Enter') addStudent(); };
 
-      el.btnExportPng.addEventListener('click', exportPng);
-      el.btnBackup.addEventListener('click', backup);
-      el.btnRestore.addEventListener('click', restoreFlow);
-      el.btnWipe.addEventListener('click', wipeFlow);
-
-      el.restoreFile.addEventListener('change', async () => {
-        const f = el.restoreFile.files && el.restoreFile.files[0];
-        await restoreFromFile(f);
-      });
+      el.btnExportPng.onclick = exportPng;
+      el.btnBackup.onclick = () => {
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'grades_backup.json';
+        a.click();
+      };
+      el.btnRestore.onclick = () => el.restoreFile.click();
+      el.restoreFile.onchange = async () => {
+        const file = el.restoreFile.files[0];
+        if (file) {
+          try {
+            const txt = await file.text();
+            state = sanitizeState(JSON.parse(txt));
+            saveState();
+            renderAll();
+            toast('بازیابی اطلاعات انجام شد.');
+          } catch (err) {
+            toast('فایل معتبر نیست.');
+          }
+        }
+      };
+      el.btnWipe.onclick = () => {
+        if (confirm('آیا مطمئن هستید؟ همه داده‌ها حذف خواهند شد.')) {
+          localStorage.removeItem(STORAGE_KEY);
+          state = makeFreshState();
+          saveState();
+          renderAll();
+          toast('اطلاعات پاک شد.');
+        }
+      };
     }
 
-    function init(){
+    function init() {
       loadState();
-      const cls = getSelectedClass();
-      if (cls){
-        if (!cls.session.dateJalali) cls.session.dateJalali = jalaliToday();
-        if (!cls.session.sessionNo) cls.session.sessionNo = '1';
-        saveState();
-      }
-      bind();
+      bindEvents();
       renderAll();
-      showPage('page-classes');
     }
 
     init();
+    // #endregion
+    // ========================================================
   </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/class-manager/sw.js')
-        .then(() => console.log('Service Worker Registered!'))
-        .catch((err) => console.log('SW Error:', err));
-    }
-  </script>
-</body>
 
+</body>
 </html>
