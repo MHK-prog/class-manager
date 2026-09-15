@@ -9,7 +9,7 @@
 
   <link rel="manifest" href="manifest.json">
 
-  <style> 
+  <style>
     :root {
       --bg: #f7fbff;
       --card: #ffffff;
@@ -523,30 +523,32 @@
       max-width: 350px;
     }
 
-.dropdown-select {
-  padding: 8px 14px;
-  font-family: inherit;
-  font-size: 13px;
-  border-radius: 20px;
-  border: 1px solid #cbd5e1;
-  background-color: #fff;
-  color: #334155;
-  cursor: pointer;
-  outline: none;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
+    .dropdown-select {
+      padding: 8px 14px;
+      font-family: inherit;
+      font-size: 13px;
+      border-radius: 20px;
+      border: 1px solid #cbd5e1;
+      background-color: #fff;
+      color: #334155;
+      cursor: pointer;
+      outline: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
 
-.dropdown-select:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
-}
-
+    .dropdown-select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+    }
   </style>
 </head>
 
 <body>
+
   <div class="app">
+    <!-- ======================================================== -->
+    <!-- #region بخش هدر مشترک تمام صفحات -->
     <header>
       <div class="brand">
         <h1>فعالیت کلاسی</h1>
@@ -558,13 +560,18 @@
       </div>
     </header>
 
+
     <nav class="tabs" aria-label="صفحات">
       <button class="tab active" data-page="page-classes" type="button">کلاس‌ها</button>
       <button class="tab" data-page="page-students" type="button">زبان‌آموزان</button>
       <button class="tab" data-page="page-export" type="button">خروجی</button>
     </nav>
+    <!-- #endregion -->
     <!-- ======================================================== -->
-    <!-- #region Page: Classes -->
+
+
+    <!-- ======================================================== -->
+    <!-- #region صفحه کلاس ها -->
 
     <section class="page active" id="page-classes">
       <div class="card">
@@ -584,18 +591,22 @@
           </div>
 
           <div style="height:12px;"></div>
+          <!-- ================================================================= -->
+          <!-- #region مودال اضافه کردن کلاس (صفحه شناور مخفی) -->
 
-          <!-- #region Modal Add Class -->
+           <!-- پرده سیاه پشت مودال -->
           <div id="modalOverlay" class="overlay" style="display:none;"></div>
 
+          <!-- خوده مودال -->
           <div id="addClassModal" class="modal" style="display:none;">
             <header>
               <h2>اضافه کردن کلاس جدید</h2>
             </header>
             <input type="text" id="modalClassNameInput" placeholder="نام کلاس...">
-            <button type="button" id="btnSubmitNewClass">ثبت کلاس</button>
+            <button type="button" class="btn primary" id="btnSubmitNewClass">ثبت کلاس</button>
           </div>
           <!-- #endregion -->
+          <!-- ================================================================= -->
 
 
           <div class="row">
@@ -629,15 +640,15 @@
     <!-- ======================================================== -->
 
     <!-- ======================================================== -->
-    <!-- #region Page: Students -->
+    <!-- #region صفحه زبان آموزان -->
 
     <section class="page" id="page-students">
       <div class="col-filter-wrap">
         <label style="color:#1e3a8a; font-weight:bold; margin-bottom:4px;">🎯 انتخاب بخش نمره‌دهی سریع:</label>
         <div class="col-pills" id="columnFilterPills">
           <button type="button" class="pill-btn active" data-col="all">نمایش همه ستون‌ها</button>
-
-          <!-- #region Filter Dropdown -->
+          <!-- ================================================================== -->
+          <!-- #region دکمه فیلتر کردن سلول های نمره دهی -->
           <div class="filter-dropdown-wrapper">
             <select id="colFilterSelect" class="dropdown-select">
               <option value="all">🔍 نمایش همه ستون‌ها</option>
@@ -653,6 +664,7 @@
             </select>
           </div>
           <!-- #endregion -->
+          <!-- ================================================================== -->
 
         </div>
       </div>
@@ -685,7 +697,7 @@
     <!-- ======================================================== -->
 
     <!-- ======================================================== -->
-    <!-- #region Page: Export -->
+    <!-- #region صفحه خروجی -->
     <section class="page" id="page-export">
       <div class="card">
         <div class="hd">
@@ -730,7 +742,7 @@
     'use strict';
 
     // ========================================================
-    // #region Config & DOM Elements
+    // #region 1. Config & DOM Elements
     const STORAGE_KEY = 'offline_class_grades_v3';
     const SCORE_COLS = [
       { key: 'attendance', label: 'حضور و تأخیر', max: 5 },
@@ -744,6 +756,7 @@
     const TOTAL_MAX = 40;
 
     let activeFilterCol = 'all';
+    let state = null;
 
     const $ = (id) => document.getElementById(id);
     const el = {
@@ -779,21 +792,17 @@
       modalOverlay: $('modalOverlay'),
       addClassModal: $('addClassModal'),
       modalClassNameInput: $('modalClassNameInput'),
-      btnSubmitNewClass: $('btnSubmitNewClass'),
-
+      btnSubmitNewClass: $('btnSubmitNewClass')
     };
-
-    let state = null;
     // #endregion
     // ========================================================
 
     // ========================================================
-    // #region Helpers & Utilities
+    // #region 2. Helpers & Utilities
     function uid() {
       return 'id_' + Math.random().toString(16).slice(2) + '_' + Date.now().toString(16);
     }
 
-    // تبدیل ارقام و ممیزهای فارسی و عربی به عدد استاندارد
     function normalizeNumber(str) {
       if (!str) return '';
       const map = {
@@ -828,25 +837,22 @@
       toast._t = setTimeout(() => { el.toast.style.display = 'none'; }, 3000);
     }
 
-    // باز کردن مودال
     function openAddClassModal() {
       el.modalOverlay.style.display = 'block';
       el.addClassModal.style.display = 'flex';
-      el.modalClassNameInput.value = ''; // خالی کردن اینپوت
-      el.modalClassNameInput.focus();     // فوکوس خودکار روی اینپوت
+      el.modalClassNameInput.value = '';
+      el.modalClassNameInput.focus();
     }
 
-    // بستن مودال
     function closeAddClassModal() {
       el.modalOverlay.style.display = 'none';
       el.addClassModal.style.display = 'none';
     }
-
     // #endregion
     // ========================================================
 
     // ========================================================
-    // #region State Management
+    // #region 3. State Management
     function makeFreshState() {
       const firstId = uid();
       return {
@@ -897,7 +903,7 @@
     // ========================================================
 
     // ========================================================
-    // #region UI Rendering
+    // #region 4. UI Rendering
     function updateHeaderSub() {
       const cls = getSelectedClass();
       if (!cls) return;
@@ -1057,7 +1063,29 @@
     // ========================================================
 
     // ========================================================
-    // #region Student Actions
+    // #region 5. Class & Student Actions
+    function handleCreateClass() {
+      const name = el.modalClassNameInput.value.trim();
+      if (!name) {
+        toast('لطفاً نام کلاس را وارد کنید.');
+        return;
+      }
+
+      const id = uid();
+      state.classes.push({
+        id,
+        name,
+        session: { dayOfWeek: '', sessionNo: '1', dateJalali: jalaliToday() },
+        students: []
+      });
+      state.selectedClassId = id;
+      saveState();
+      renderAll();
+
+      closeAddClassModal();
+      toast('کلاس جدید ایجاد شد.');
+    }
+
     function addStudent() {
       const cls = getSelectedClass();
       if (!cls) return;
@@ -1094,7 +1122,7 @@
     // ========================================================
 
     // ========================================================
-    // #region Export Handlers
+    // #region 6. Export & Backup Handlers
     function buildExportDom(cls) {
       const stage = el.exportStage;
       stage.innerHTML = '';
@@ -1177,85 +1205,32 @@
     // ========================================================
 
     // ========================================================
-    // #region Event Listeners & Init
+    // #region 7. Event Listeners & Lifecycle
     function bindEvents() {
       el.tabs.forEach(t => t.onclick = () => showPage(t.dataset.page));
       el.quickStudents.onclick = () => showPage('page-students');
       el.quickExport.onclick = () => showPage('page-export');
       el.toastX.onclick = () => el.toast.style.display = 'none';
 
-      // تغییر ستون انتخابی از دراپ‌داون
       el.colFilterSelect.onchange = (e) => {
         activeFilterCol = e.target.value;
         renderStudents();
       };
 
-
-      // جابجایی بین کلاس‌ها و آپدیت فرم
       el.classSelect.onchange = () => {
         state.selectedClassId = el.classSelect.value;
         saveState();
         renderAll();
       };
 
-      el.btnAddClass.onclick = () => {
-        const name = prompt('نام کلاس جدید:');
-        if (name && name.trim()) {
-          const id = uid();
-          state.classes.push({
-            id,
-            name: name.trim(),
-            session: { dayOfWeek: '', sessionNo: '1', dateJalali: jalaliToday() },
-            students: []
-          });
-          state.selectedClassId = id;
-          saveState();
-          renderAll();
-        }
-      };
-
-      // ===============================
-      // #region 
-      // ۱. زدن روی دکمه «کلاس جدید» برای باز شدن پنجره
+      // مدیریت مودال کلاس جدید
       el.btnAddClass.onclick = openAddClassModal;
-
-      // ۲. ضربه روی پرده شفاف پشت (Overlay) برای انصراف و خروج
       el.modalOverlay.onclick = closeAddClassModal;
-
-      // ۳. کلیک روی دکمه «ثبت کلاس» داخل مودال
       el.btnSubmitNewClass.onclick = handleCreateClass;
-
-      // ۴. زدن کلید Enter داخل اینپوت هم کار ثبت رو انجام بده
       el.modalClassNameInput.onkeydown = (e) => {
         if (e.key === 'Enter') handleCreateClass();
-        if (e.key === 'Escape') closeAddClassModal(); // با دکمه Esc هم بسته بشه
+        if (e.key === 'Escape') closeAddClassModal();
       };
-
-      // منطق ذخیره کلاس جدید
-      function handleCreateClass() {
-        const name = el.modalClassNameInput.value.trim();
-        if (!name) {
-          toast('لطفاً نام کلاس را وارد کنید.');
-          return;
-        }
-
-        const id = uid();
-        state.classes.push({
-          id,
-          name,
-          session: { dayOfWeek: '', sessionNo: '1', dateJalali: jalaliToday() },
-          students: []
-        });
-        state.selectedClassId = id;
-        saveState();
-        renderAll();
-
-        closeAddClassModal(); // بستن پنجره بعد از ثبت
-        toast('کلاس جدید ایجاد شد.');
-      }
-
-      // #endregion 
-      // ===============================
 
       el.btnDeleteClass.onclick = () => {
         if (state.classes.length <= 1) return toast('حداقل یک کلاس باید باقی بماند.');
@@ -1274,6 +1249,7 @@
         saveState();
         updateHeaderSub();
       };
+
       el.sessionNoInput.oninput = (e) => {
         const cls = getSelectedClass();
         if (!cls.session) cls.session = {};
@@ -1281,6 +1257,7 @@
         saveState();
         updateHeaderSub();
       };
+
       el.dateInput.oninput = (e) => {
         const cls = getSelectedClass();
         if (!cls.session) cls.session = {};
@@ -1293,6 +1270,7 @@
       el.newStudentName.onkeydown = (e) => { if (e.key === 'Enter') addStudent(); };
 
       el.btnExportPng.onclick = exportPng;
+
       el.btnBackup.onclick = () => {
         const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
         const a = document.createElement('a');
@@ -1300,6 +1278,7 @@
         a.download = 'grades_backup.json';
         a.click();
       };
+
       el.btnRestore.onclick = () => el.restoreFile.click();
       el.restoreFile.onchange = async () => {
         const file = el.restoreFile.files[0];
@@ -1315,6 +1294,7 @@
           }
         }
       };
+
       el.btnWipe.onclick = () => {
         if (confirm('آیا مطمئن هستید؟ همه داده‌ها حذف خواهند شد.')) {
           localStorage.removeItem(STORAGE_KEY);
@@ -1333,6 +1313,20 @@
     }
 
     init();
+    // #endregion
+    // ========================================================
+
+    // ========================================================
+    // #region 8. Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/class-manager/sw.js?v=2').then(reg => {
+        reg.update();
+      });
+
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+      });
+    }
     // #endregion
     // ========================================================
   </script>
