@@ -1,4 +1,6 @@
-const CACHE_NAME = 'class-manager-v1';
+// هربار تغییر اساسی دادی این ورژن رو ببر بالا (مثلا v2, v3)
+const CACHE_NAME = 'class-manager-v2';
+
 const urlsToCache = [
   '/class-manager/',
   '/class-manager/index.html',
@@ -8,37 +10,43 @@ const urlsToCache = [
   '/class-manager/icon-512.png'
 ];
 
-// Install Service Worker
+// 1. نصب و جایگزینی فوری بدون معطلی (Skip Waiting)
 self.addEventListener('install', event => {
+  self.skipWaiting(); // خیلی مهم: سرویس ورکر قبلی رو فوراً کنار می‌زنه
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// Activate Service Worker
+// 2. فعال‌سازی و پاکسازی کش‌های قدیمی
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
+    caches.keys().then(keys => {
       return Promise.all(
-        cacheNames.map(cache => {
-          if (cache !== CACHE_NAME) {
-            return caches.delete(cache);
-          }
-        })
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
       );
-    })
+    }).then(() => self.clients.claim()) // سریعاً کنترل تب‌های باز رو به دست می‌گیره
   );
 });
 
-// Fetch resources
+// 3. استراتژی هوشمند: اول شبکه، اگر نشد (آفلاین بود) کش
 self.addEventListener('fetch', event => {
+  // فقط درخواست‌های GET رو مدیریت کن
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        return response || fetch(event.request);
+    fetch(event.request)
+      .then(networkResponse => {
+        // اگر پاسخ از سرور سالم بود، یه کپی ازش می‌فرستیم توی کش که آپدیت بمونه
+        if (networkResponse && networkResponse.status === 200) {
+          const resClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, resClone));
+        }
+        return networkResponse;
+      })
+      .catch(() => {
+        // اگر اینترنت نبود یا سرور جواب نداد، کش قبلی رو برگردون (آفلاین کار می‌کنه)
+        return caches.match(event.request);
       })
   );
 });
