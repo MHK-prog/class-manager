@@ -1,5 +1,5 @@
 // هربار تغییر اساسی دادی این ورژن رو ببر بالا (مثلا v2, v3)
-const CACHE_NAME = 'class-manager-v5';
+const CACHE_NAME = 'class-manager-v6';
 
 const urlsToCache = [
   '/class-manager/',
