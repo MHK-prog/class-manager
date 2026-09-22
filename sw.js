@@ -5,7 +5,6 @@ const urlsToCache = [
   '/class-manager/',
   '/class-manager/index.html',
   '/class-manager/manifest.json',
-  '/class-manager/style.css',
   '/class-manager/css/00-base.css',
   '/class-manager/css/01-classes.css',
   '/class-manager/css/02-students.css',
