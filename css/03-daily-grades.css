@@ -1,0 +1,13 @@
+/* Daily grades page */
+#page-daily .btn-switcher {
+  min-width: 0;
+}
+
+#page-daily .score-input,
+#page-daily .note-input {
+  direction: ltr;
+}
+
+#page-daily .score-input {
+  text-align: center;
+}

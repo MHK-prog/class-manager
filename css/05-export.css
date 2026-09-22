@@ -1,0 +1,8 @@
+/* Export page */
+#page-export .btn {
+  min-height: 42px;
+}
+
+#page-export .row {
+  align-items: stretch;
+}

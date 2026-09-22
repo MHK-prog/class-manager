@@ -1,0 +1,13 @@
+/* Report cards page */
+#page-report-cards .btn-switcher {
+  min-width: 0;
+}
+
+#page-report-cards .rc-input {
+  direction: ltr;
+  text-align: center;
+}
+
+#page-report-cards textarea {
+  min-height: 80px;
+}

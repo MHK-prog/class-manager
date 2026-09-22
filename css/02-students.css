@@ -1,0 +1,8 @@
+/* Students page */
+#page-students .card {
+  margin-bottom: var(--page-gap);
+}
+
+#studentsManageList {
+  min-height: 12px;
+}
