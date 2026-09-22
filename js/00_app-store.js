@@ -121,7 +121,7 @@ const AppStore = {
     try {
       localStorage.setItem(this.key, JSON.stringify(this.state));
       const statusEl = document.getElementById('saveStateText');
-      if (statusEl) statusEl.textContent = 'V4.5.1';
+      if (statusEl) statusEl.textContent = 'V4.5.2';
       return true;
     } catch {
       const statusEl = document.getElementById('saveStateText');
