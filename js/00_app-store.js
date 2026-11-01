@@ -1,7 +1,7 @@
 // ========================================================
 // هسته داده‌ها و ذخیره‌سازی (KISS & Clean)
 
-const APP_VERSION = '4.5.3';
+const APP_VERSION = '4.6.0';
 
 const AppStore = {
   key: 'offline_class_grades_v3',
@@ -37,7 +37,9 @@ const AppStore = {
             }
           };
         }),
-        dailyHistory: Array.isArray(cls.dailyHistory) ? cls.dailyHistory : []
+        dailyHistory: Array.isArray(cls.dailyHistory) ? cls.dailyHistory : [],
+        evaluationSessions: Array.isArray(cls.evaluationSessions) ? cls.evaluationSessions : [],
+        sessionDraft: cls.sessionDraft && typeof cls.sessionDraft === 'object' ? cls.sessionDraft : null
       };
     });
 
@@ -89,7 +91,9 @@ const AppStore = {
       name: String(name).trim(),
       session: { dayOfWeek: '', sessionNo: '1', dateJalali: this.today() },
       students: [],
-      dailyHistory: []
+      dailyHistory: [],
+      evaluationSessions: [],
+      sessionDraft: null
     };
   },
 

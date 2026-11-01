@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/03-daily-grades.css">
   <link rel="stylesheet" href="css/04-report-cards.css">
   <link rel="stylesheet" href="css/05-export.css">
+  <link rel="stylesheet" href="css/06-session-tracker.css">
 
   <!-- استایل و اسکریپت دیت‌پیکر شمسی سبک -->
   
@@ -37,7 +38,7 @@
         <h3 id="pageTitle">معلم یار دماوند</h3>
         <div class="pill">
           <span class="dot"></span>
-          <span id="saveStateText">V4.5.3</span>
+          <span id="saveStateText">V4.6.0</span>
         </div>
       </header>
     </div>
@@ -58,6 +59,7 @@
 
       <ul>
         <li><button class="tab active" data-page="page-classes" type="button">کلاس‌ها</button></li>
+        <li><button class="tab" data-page="page-session-tracker" type="button">ثبت جلسه سریع</button></li>
         <li><button class="tab" data-page="page-students" type="button">زبان‌آموزان</button></li>
         <li><button class="tab" data-page="page-daily" type="button">نمرات روزانه</button></li>
         <li><button class="tab" data-page="page-report-cards" type="button">کارنامه‌ها</button></li>
@@ -122,6 +124,46 @@
 
             </div>
           </div>
+
+          <div class="session-launch-card">
+            <div>
+              <strong>ثبت سریع ارزیابی جلسه</strong>
+              <span>حضور، تکلیف، پرسش کلاسی و املا را در چند مرحله ثبت و خروجی بگیرید.</span>
+            </div>
+            <button class="btn primary" id="startSessionTracker" type="button">شروع جلسه</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="page-session-tracker">
+      <div class="session-tracker" dir="rtl">
+        <header class="session-tracker-head">
+          <div>
+            <span class="session-eyebrow" id="trackerClassName">کلاس</span>
+            <h1 id="trackerStepTitle">حضور و غیاب</h1>
+            <p id="trackerStepHint"></p>
+          </div>
+          <button class="btn ghost" type="button" data-tracker-action="back-to-classes">بازگشت</button>
+        </header>
+
+        <nav class="session-progress" aria-label="مراحل ثبت جلسه" id="trackerProgress"></nav>
+        <div class="session-tracker-meta" id="trackerMeta"></div>
+
+        <div class="session-panel">
+          <div class="session-panel-toolbar" id="trackerToolbar"></div>
+          <div id="trackerStudentList" class="session-student-list"></div>
+          <div id="trackerReview" class="session-review" hidden></div>
+        </div>
+
+        <footer class="session-tracker-actions">
+          <button class="btn ghost" type="button" data-tracker-action="previous">مرحله قبل</button>
+          <button class="btn primary" type="button" data-tracker-action="next">اتمام و مرحله بعد</button>
+        </footer>
+        <div class="session-export-actions" id="trackerExportActions" hidden>
+          <button class="btn ghost" type="button" data-tracker-action="export-json">دانلود JSON جلسه</button>
+          <button class="btn primary" type="button" data-tracker-action="export-cards">دانلود کارت‌های PNG در ZIP</button>
+          <button class="btn ghost" type="button" data-tracker-action="new-session">شروع جلسهٔ دیگر</button>
         </div>
       </div>
     </section>
@@ -338,6 +380,7 @@
 
   <input type="file" id="restoreFile" accept=".json" style="display:none;" />
   <div class="export-stage" id="exportStage" aria-hidden="true"></div>
+  <div id="sessionCardStage" class="session-card-stage" aria-hidden="true"></div>
 
   <!-- #endregion -->
   <!-- ======================================================== -->
@@ -388,9 +431,11 @@
   <script src="js/07_table-image-output.js"></script>
   <script src="js/08_data-backup-restore-cleanup.js"></script>
   <script src="js/09_solar-calendar.js"></script>
+  <script src="js/10_session_tracker.js"></script>
   <script>
     // [استارت نهایی سیستم]
     AppStore.load();
+    initializeSessionTracker();
     autoSetToday();
     renderClasses();
     renderStudentsManage?.();
