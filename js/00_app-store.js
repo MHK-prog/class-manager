@@ -1,6 +1,8 @@
 // ========================================================
 // هسته داده‌ها و ذخیره‌سازی (KISS & Clean)
 
+const APP_VERSION = '4.5.3';
+
 const AppStore = {
   key: 'offline_class_grades_v3',
   state: null,
@@ -121,7 +123,7 @@ const AppStore = {
     try {
       localStorage.setItem(this.key, JSON.stringify(this.state));
       const statusEl = document.getElementById('saveStateText');
-      if (statusEl) statusEl.textContent = 'V4.5.1';
+      if (statusEl) statusEl.textContent = `V${APP_VERSION}`;
       return true;
     } catch {
       const statusEl = document.getElementById('saveStateText');
