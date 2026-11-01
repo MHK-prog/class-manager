@@ -1,0 +1,13 @@
+/* Shared foundation. The legacy base is kept as the single source of global tokens. */
+@import url("./base.css");
+
+:root {
+  --page-gap: 12px;
+}
+
+button,
+input,
+select,
+textarea {
+  min-height: 38px;
+}

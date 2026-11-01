@@ -1,0 +1,10 @@
+/* Class management page */
+#page-classes .card {
+  margin-bottom: var(--page-gap);
+}
+
+#page-classes #sessionNoInput[readonly] {
+  background: #f8fafc;
+  color: #475569;
+  cursor: not-allowed;
+}
