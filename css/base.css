@@ -37,6 +37,8 @@
 html,
 body {
   height: 100%;
+  overscroll-behavior-x: none;
+  touch-action: pan-y pinch-zoom;
 }
 
 body {
@@ -186,24 +188,33 @@ header {
 
 /* منوی کشویی - اصلی */
 .drawer {
-  position: fixed; /* چسبیده به صفحه */
+  position: fixed;
   top: 0;
-  right: -280px; /* مخفی در حالت عادی */
-  width: 200px;
-  height: 100%; /* ارتفاع کامل */
+  right: 0;
+  width: min(66.666vw, 320px);
+  height: 100vh;
+  height: 100dvh;
   background-color: #ffffff;
-  padding: 40px 16px 20px;
+  padding: calc(40px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
   box-shadow: -8px 0 25px rgba(0, 0, 0, 0.06);
   border-radius: 24px 0 0 24px;
-  transition: right 0.3s ease;
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 100;
-  box-sizing: border-box;
-  overflow: hidden; /* برای اینکه لوگوی پس‌زمینه بیرون نزنه */
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y pinch-zoom;
+  will-change: transform;
 }
 
 /* حالت باز شدن */
 .drawer.open {
-  right: 0;
+  transform: translate3d(0, 0, 0);
+}
+
+.drawer.dragging {
+  transition: none;
 }
 
 /* لوگوی پس‌زمینه (واترمارک) */
@@ -660,6 +671,11 @@ textarea:focus {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(2px);
   z-index: 99;
+  transition: opacity 0.12s linear;
+}
+
+.overlay.dragging {
+  transition: none;
 }
 
 .modal {

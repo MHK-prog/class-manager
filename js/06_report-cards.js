@@ -255,18 +255,27 @@ function copyRcString(btn) {
 function exportClassReportCardsTxt() {
   const cls = AppStore.getSelectedClass();
   if (!cls || !cls.students || cls.students.length === 0) {
-    return alert('زبان‌آموزی در این کلاس وجود ندارد!');
+    return toast('زبان‌آموزی در این کلاس وجود ندارد.');
   }
 
   const lines = cls.students.map(st => `${st.fullName || 'بدون نام'}\t${buildStudentRcString(st)}`);
-  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const blob = new Blob(['\uFEFF', lines.join('\r\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `کارنامه_${(cls.name || 'کلاس').replace(/\s+/g, '_')}.txt`;
+  const safeClassName = (cls.name || 'کلاس')
+    .replace(/[\\/:*?"<>|]/g, '_')
+    .replace(/\s+/g, '_');
+  a.href = url;
+  a.download = `کارنامه_${safeClassName}.txt`;
+  a.style.display = 'none';
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(a.href);
+  a.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+  toast('فایل کارنامه‌های کلاس دانلود شد.');
 }
 
+$('btnExportRcTxt')?.addEventListener('click', exportClassReportCardsTxt);
 $('btnRcModeStudent')?.addEventListener('click', () => switchRcMode('student'));
 $('btnRcModeField')?.addEventListener('click', () => switchRcMode('field'));
 $('rcStudentSelect')?.addEventListener('change', renderRcStudentView);

@@ -8,6 +8,7 @@ function syncOverlay() {
   const hasOpenMenu = $('menuDrawer')?.classList.contains('open');
   const hasOpenModal = document.querySelector('.modal.active');
   const hasOpenLayer = Boolean(hasOpenMenu || hasOpenModal);
+  $('menuBtn')?.setAttribute('aria-expanded', String(Boolean(hasOpenMenu)));
   if (overlay) overlay.style.display = hasOpenLayer ? 'block' : 'none';
   document.body.classList.toggle('modal-open', hasOpenLayer);
 }
