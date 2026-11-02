@@ -4,11 +4,8 @@ function submitAddClass() {
 
   if (!name) return toast('نام کلاس را وارد کنید.');
 
-  AppStore.addClass(name);
-  render();
-  refreshDependents();
-  closeModal('addClassModal');
-  toast('کلاس اضافه شد.');
+  if (!window.ClassesModule?.create) return toast('ماژول مدیریت کلاس در دسترس نیست.');
+  window.ClassesModule.create(name);
 }
 
 function openAddClassModal() {

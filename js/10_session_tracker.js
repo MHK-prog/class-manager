@@ -16,14 +16,14 @@
   let savedSession = null;
 
   function selectedClass() {
-    return global.AppStore?.getSelectedClass?.() || null;
+    return AppStore?.getSelectedClass?.() || null;
   }
 
   function normalizeDraft(draft, classItem) {
     const roster = Array.isArray(draft.students) ? draft.students : [];
     return {
       ...draft,
-      sessionId: draft.sessionId || `evaluation_${global.AppStore.uid()}`,
+      sessionId: draft.sessionId || `evaluation_${AppStore.uid()}`,
       classId: classItem.id,
       className: draft.className || classItem.name || 'کلاس',
       sessionNo: draft.sessionNo || classItem.session?.sessionNo || '1',
@@ -33,7 +33,7 @@
       skipHomework: Boolean(draft.skipHomework),
       skipDictation: Boolean(draft.skipDictation),
       students: roster.map(student => ({
-        studentId: student.studentId || student.id || global.AppStore.uid(),
+        studentId: student.studentId || student.id || AppStore.uid(),
         name: student.name || student.fullName || '',
         attendanceStatus: ['present', 'late', 'absent'].includes(student.attendanceStatus) ? student.attendanceStatus : 'present',
         homeworkStars: validStars(student.homeworkStars),
@@ -51,10 +51,10 @@
 
   function persistDraft() {
     if (!activeSession) return;
-    const classItem = global.AppStore.state?.classes?.find(item => String(item.id) === String(activeSession.classId));
+    const classItem = AppStore.state?.classes?.find(item => String(item.id) === String(activeSession.classId));
     if (!classItem) return;
     classItem.sessionDraft = activeSession;
-    global.AppStore.save();
+    AppStore.save();
   }
 
   function startSession() {
@@ -71,7 +71,7 @@
       activeSession = normalizeDraft(existing, classItem);
     } else {
       activeSession = normalizeDraft({
-        sessionId: `evaluation_${global.AppStore.uid()}`,
+        sessionId: `evaluation_${AppStore.uid()}`,
         classId: classItem.id,
         className: classItem.name,
         sessionNo: global.getSessionNoForDisplay?.(classItem) || classItem.session?.sessionNo || '1',
@@ -447,7 +447,7 @@
 
   function saveSession() {
     if (!activeSession) return;
-    const classItem = global.AppStore.state?.classes?.find(item => String(item.id) === String(activeSession.classId));
+    const classItem = AppStore.state?.classes?.find(item => String(item.id) === String(activeSession.classId));
     if (!classItem) return global.toast?.('کلاس جلسه پیدا نشد؛ ثبت انجام نشد.');
     if (classItem.evaluationSessions?.some(session => session.sessionId === activeSession.sessionId)) {
       savedSession = classItem.evaluationSessions.find(session => session.sessionId === activeSession.sessionId);
@@ -457,7 +457,7 @@
     classItem.evaluationSessions ||= [];
     classItem.evaluationSessions.push(record);
     classItem.sessionDraft = null;
-    if (!global.AppStore.save()) {
+    if (!AppStore.save()) {
       classItem.evaluationSessions.pop();
       classItem.sessionDraft = activeSession;
       return global.toast?.('ذخیره‌سازی انجام نشد؛ فضای ذخیره‌سازی مرورگر را بررسی کنید.');

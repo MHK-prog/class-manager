@@ -79,9 +79,15 @@
     if (!currentState) return;
 
     const classItem = AppStore.createClass(name);
+    const previousSelectedClassId = currentState.selectedClassId;
     currentState.classes.push(classItem);
     currentState.selectedClassId = classItem.id;
-    AppStore.save();
+    if (!AppStore.save()) {
+      currentState.classes = currentState.classes.filter(item => item.id !== classItem.id);
+      currentState.selectedClassId = previousSelectedClassId || currentState.classes[0]?.id || '';
+      render();
+      return toast('ذخیرهٔ کلاس انجام نشد؛ فضای ذخیره‌سازی مرورگر را بررسی کنید.');
+    }
     render();
     refreshDependents();
     closeModal('addClassModal');

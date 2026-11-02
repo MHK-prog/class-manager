@@ -1,31 +1,23 @@
 // ========================================================
 // #region [بلوک ۴: سیستم کارنامه‌ها]
 const RC_FIELDS = [
-  { key: 'cinv', label: 'Class Involvement (40)', max: 40 },
-  { key: 'spk', label: 'Speaking (20)', max: 20 },
-  { key: 'read', label: 'Reading (20)', max: 20 },
-  { key: 'hw', label: 'Homework (20)', max: 20 },
-  { key: 'mid', label: 'Midterm (40)', max: 40 },
-  { key: 'disc', label: 'Discipline (10)', max: 10 },
-  { key: 'list', label: 'Listening (10)', max: 10 },
-  { key: 'voc', label: 'Vocabulary (10)', max: 10 },
-  { key: 'spel', label: 'Spelling (10)', max: 10 },
-  { key: 'gram', label: 'Grammar (10)', max: 10 },
-  { key: 'wri', label: 'Writing (10)', max: 10 }
+  { key: 'classActivity', label: 'فعالیت کلاسی (۴۰)', max: 40, scoreIndex: 0 },
+  { key: 'midterm', label: 'میان‌ترم (۴۰)', max: 40, scoreIndex: 4 },
+  { key: 'discipline', label: 'انضباط (۱۰)', max: 10, scoreIndex: 5 }
 ];
 
 let rcCurrentMode = 'student';
 
 function ensureReportCard(st) {
   if (!st.reportCard) st.reportCard = {};
-  if (!Array.isArray(st.reportCard.scores)) st.reportCard.scores = Array(RC_FIELDS.length).fill('');
+  if (!Array.isArray(st.reportCard.scores)) st.reportCard.scores = Array(11).fill('');
   if (typeof st.reportCard.teacherDesc !== 'string') st.reportCard.teacherDesc = '';
   if (typeof st.reportCard.supDesc !== 'string') st.reportCard.supDesc = '';
 }
 
 function getRcTotal(st) {
   ensureReportCard(st);
-  return st.reportCard.scores.reduce((acc, v) => acc + (parseFloat(normalizeNumber(v)) || 0), 0);
+  return RC_FIELDS.reduce((sum, field) => sum + (parseFloat(normalizeNumber(st.reportCard.scores[field.scoreIndex])) || 0), 0);
 }
 
 function updateRcTotal(st) {
@@ -117,7 +109,7 @@ function initReportCardPage() {
       // الف) تغییر نمرات کارنامه
       if (e.target.classList.contains('rc-input')) {
         const idx = parseInt(e.target.dataset.fieldIndex, 10);
-        const f = RC_FIELDS[idx];
+        const f = RC_FIELDS.find(field => field.scoreIndex === idx);
         const raw = normalizeNumber(e.target.value.trim());
 
         if (raw === '') {
@@ -170,9 +162,9 @@ function renderRcStudentView() {
     row.innerHTML = `
       <label style="font-size:13px; font-weight:bold; color:#334155;">${f.label}</label>
       <input type="text" inputmode="decimal" class="num rc-input"
-             data-student-id="${st.id}" data-field-index="${i}"
+             data-student-id="${st.id}" data-field-index="${f.scoreIndex}"
              style="width:110px; text-align:center; padding:6px; border:1px solid #cbd5e1; border-radius:6px;"
-             placeholder="۰-${f.max}" value="${st.reportCard.scores[i] ?? ''}">
+             placeholder="۰-${f.max}" value="${st.reportCard.scores[f.scoreIndex] ?? ''}">
     `;
     formList.appendChild(row);
   });
@@ -211,9 +203,9 @@ function renderRcFieldView() {
     row.innerHTML = `
       <span style="font-size:13px; font-weight:bold; color:#334155;">${st.fullName || 'بدون نام'}</span>
       <input type="text" inputmode="decimal" class="num rc-input"
-             data-student-id="${st.id}" data-field-index="${idx}"
+             data-student-id="${st.id}" data-field-index="${f.scoreIndex}"
              style="width:110px; text-align:center; padding:6px; border:1px solid #cbd5e1; border-radius:6px;"
-             placeholder="۰-${f.max}" value="${st.reportCard.scores[idx] ?? ''}">
+             placeholder="۰-${f.max}" value="${st.reportCard.scores[f.scoreIndex] ?? ''}">
     `;
     formList.appendChild(row);
   });
@@ -222,7 +214,7 @@ function renderRcFieldView() {
 function buildStudentRcString(st) {
   if (!st) return '';
   ensureReportCard(st);
-  const scores = (st.reportCard.scores || []).map(s => (s ?? ''));
+  const scores = RC_FIELDS.map(field => st.reportCard.scores[field.scoreIndex] ?? '');
   return [...scores, (st.reportCard.teacherDesc || '').trim(), (st.reportCard.supDesc || '').trim()].join('+');
 }
 

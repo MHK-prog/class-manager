@@ -1,7 +1,7 @@
 // ========================================================
 // هسته داده‌ها و ذخیره‌سازی (KISS & Clean)
 
-const APP_VERSION = '4.6.0';
+const APP_VERSION = '4.7.0';
 
 const AppStore = {
   key: 'offline_class_grades_v3',

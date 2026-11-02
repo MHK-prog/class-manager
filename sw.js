@@ -1,5 +1,5 @@
 // هربار تغییر اساسی دادی این ورژن رو ببر بالا (مثلا v2, v3)
-const CACHE_NAME = 'class-manager-v8';
+const CACHE_NAME = 'class-manager-v9';
 
 const urlsToCache = [
   '/class-manager/',
@@ -35,6 +35,7 @@ const urlsToCache = [
   '/class-manager/js/08_data-backup-restore-cleanup.js',
   '/class-manager/js/09_solar-calendar.js',
   '/class-manager/js/10_session_tracker.js',
+  '/class-manager/js/11_export-cmm-grades.js',
   '/class-manager/js/modal/00.5_modals.js',
   '/class-manager/js/modal/05.5_daily-history-modal.js',
   '/class-manager/js/modal/05.6_add-class-modal.js',

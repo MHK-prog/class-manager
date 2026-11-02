@@ -30,6 +30,9 @@ function renderStudentsManage() {
       st.fullName = e.target.value;
       AppStore.save();
     };
+    inp.onblur = () => {
+      if (!AppStore.save()) toast('ذخیرهٔ تغییر نام انجام نشد؛ فضای ذخیره‌سازی مرورگر را بررسی کنید.');
+    };
 
     const delBtn = document.createElement('button');
     delBtn.type = 'button';
@@ -52,15 +55,20 @@ function renderStudentsManage() {
 }
 
 function addStudent() {
+  if (!AppStore.state) AppStore.load();
   const cls = AppStore.getSelectedClass();
   if (!cls) return;
   const input = $('newStudentName');
   const name = (input?.value || '').trim();
   if (!name) return toast('لطفاً نام زبان‌آموز را وارد کنید.');
 
-  cls.students.push(AppStore.createStudent(name));
+  const student = AppStore.createStudent(name);
+  cls.students.push(student);
+  if (!AppStore.save()) {
+    cls.students = cls.students.filter(item => item.id !== student.id);
+    return toast('ذخیرهٔ زبان‌آموز انجام نشد؛ فضای ذخیره‌سازی مرورگر را بررسی کنید.');
+  }
   if (input) input.value = '';
-  AppStore.save();
   renderStudentsManage();
   if (input) {
     input.focus();
