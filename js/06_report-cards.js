@@ -2,8 +2,16 @@
 // #region [بلوک ۴: سیستم کارنامه‌ها]
 const RC_FIELDS = [
   { key: 'classActivity', label: 'فعالیت کلاسی (۴۰)', max: 40, scoreIndex: 0 },
+  { key: 'speaking', label: 'مکالمه (۲۰)', max: 20, scoreIndex: 1 },
+  { key: 'reading', label: 'خواندن (۲۰)', max: 20, scoreIndex: 2 },
+  { key: 'homework', label: 'تکلیف (۲۰)', max: 20, scoreIndex: 3 },
   { key: 'midterm', label: 'میان‌ترم (۴۰)', max: 40, scoreIndex: 4 },
-  { key: 'discipline', label: 'انضباط (۱۰)', max: 10, scoreIndex: 5 }
+  { key: 'discipline', label: 'انضباط (۱۰)', max: 10, scoreIndex: 5 },
+  { key: 'listening', label: 'شنیداری (۱۰)', max: 10, scoreIndex: 6 },
+  { key: 'vocabulary', label: 'واژگان (۱۰)', max: 10, scoreIndex: 7 },
+  { key: 'spelling', label: 'املا (۱۰)', max: 10, scoreIndex: 8 },
+  { key: 'grammar', label: 'دستور زبان (۱۰)', max: 10, scoreIndex: 9 },
+  { key: 'writing', label: 'نوشتن (۱۰)', max: 10, scoreIndex: 10 }
 ];
 
 let rcCurrentMode = 'student';
@@ -12,7 +20,13 @@ function ensureReportCard(st) {
   if (!st.reportCard) st.reportCard = {};
   if (!Array.isArray(st.reportCard.scores)) st.reportCard.scores = Array(11).fill('');
   if (typeof st.reportCard.teacherDesc !== 'string') st.reportCard.teacherDesc = '';
-  if (typeof st.reportCard.supDesc !== 'string') st.reportCard.supDesc = '';
+  delete st.reportCard.supDesc;
+}
+
+function escapeRcHtml(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
 }
 
 function getRcTotal(st) {
@@ -106,6 +120,14 @@ function initReportCardPage() {
       if (!st) return;
       ensureReportCard(st);
 
+      if (e.target.classList.contains('rc-student-meta')) {
+        const field = e.target.dataset.studentField;
+        if (field === 'fatherName' || field === 'nationalId') {
+          st[field] = e.target.value;
+          AppStore.save();
+        }
+      }
+
       // الف) تغییر نمرات کارنامه
       if (e.target.classList.contains('rc-input')) {
         const idx = parseInt(e.target.dataset.fieldIndex, 10);
@@ -129,11 +151,6 @@ function initReportCardPage() {
         AppStore.save();
       }
 
-      // ج) توضیحات سوپروایزر
-      if (e.target.classList.contains('rc-desc-sup')) {
-        st.reportCard.supDesc = e.target.value;
-        AppStore.save();
-      }
     });
   }
 
@@ -156,15 +173,26 @@ function renderRcStudentView() {
   ensureReportCard(st);
   formList.innerHTML = '';
 
+  const identity = document.createElement('div');
+  identity.style.cssText = 'display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin-bottom:12px;';
+  identity.innerHTML = `
+    <label style="font-size:12px; color:#475569;">نام پدر
+      <input class="rc-student-meta" data-student-id="${escapeRcHtml(st.id)}" data-student-field="fatherName" value="${escapeRcHtml(st.fatherName || '')}" autocomplete="off" style="display:block; width:100%; margin-top:4px; padding:7px; border:1px solid #cbd5e1; border-radius:6px;">
+    </label>
+    <label style="font-size:12px; color:#475569;">کد ملی
+      <input class="rc-student-meta" data-student-id="${escapeRcHtml(st.id)}" data-student-field="nationalId" inputmode="numeric" value="${escapeRcHtml(st.nationalId || '')}" autocomplete="off" style="display:block; width:100%; margin-top:4px; padding:7px; border:1px solid #cbd5e1; border-radius:6px;">
+    </label>`;
+  formList.appendChild(identity);
+
   RC_FIELDS.forEach((f, i) => {
     const row = document.createElement('div');
     row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #eee;';
     row.innerHTML = `
-      <label style="font-size:13px; font-weight:bold; color:#334155;">${f.label}</label>
+      <label style="font-size:13px; font-weight:bold; color:#334155;">${escapeRcHtml(f.label)}</label>
       <input type="text" inputmode="decimal" class="num rc-input"
-             data-student-id="${st.id}" data-field-index="${f.scoreIndex}"
+             data-student-id="${escapeRcHtml(st.id)}" data-field-index="${f.scoreIndex}"
              style="width:110px; text-align:center; padding:6px; border:1px solid #cbd5e1; border-radius:6px;"
-             placeholder="۰-${f.max}" value="${st.reportCard.scores[f.scoreIndex] ?? ''}">
+             placeholder="۰-${f.max}" value="${escapeRcHtml(st.reportCard.scores[f.scoreIndex] ?? '')}">
     `;
     formList.appendChild(row);
   });
@@ -173,11 +201,8 @@ function renderRcStudentView() {
   tRow.style.cssText = 'padding:10px 0;';
   tRow.innerHTML = `
     <div style="font-size:13px; font-weight:bold; color:#334155; margin-bottom:6px;">Teacher Description</div>
-    <textarea class="rc-desc-teacher" data-student-id="${st.id}"
-              style="width:100%; min-height:70px; padding:8px; border:1px solid #cbd5e1; border-radius:8px;">${st.reportCard.teacherDesc || ''}</textarea>
-    <div style="font-size:13px; font-weight:bold; color:#334155; margin:10px 0 6px;">Supervisor Description</div>
-    <textarea class="rc-desc-sup" data-student-id="${st.id}"
-              style="width:100%; min-height:70px; padding:8px; border:1px solid #cbd5e1; border-radius:8px;">${st.reportCard.supDesc || ''}</textarea>
+    <textarea class="rc-desc-teacher" data-student-id="${escapeRcHtml(st.id)}"
+              style="width:100%; min-height:70px; padding:8px; border:1px solid #cbd5e1; border-radius:8px;">${escapeRcHtml(st.reportCard.teacherDesc || '')}</textarea>
   `;
   formList.appendChild(tRow);
 
@@ -201,11 +226,11 @@ function renderRcFieldView() {
     const row = document.createElement('div');
     row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #eee;';
     row.innerHTML = `
-      <span style="font-size:13px; font-weight:bold; color:#334155;">${st.fullName || 'بدون نام'}</span>
+      <span style="font-size:13px; font-weight:bold; color:#334155;">${escapeRcHtml(st.fullName || 'بدون نام')}</span>
       <input type="text" inputmode="decimal" class="num rc-input"
-             data-student-id="${st.id}" data-field-index="${f.scoreIndex}"
+             data-student-id="${escapeRcHtml(st.id)}" data-field-index="${f.scoreIndex}"
              style="width:110px; text-align:center; padding:6px; border:1px solid #cbd5e1; border-radius:6px;"
-             placeholder="۰-${f.max}" value="${st.reportCard.scores[f.scoreIndex] ?? ''}">
+             placeholder="۰-${f.max}" value="${escapeRcHtml(st.reportCard.scores[f.scoreIndex] ?? '')}">
     `;
     formList.appendChild(row);
   });
@@ -215,7 +240,7 @@ function buildStudentRcString(st) {
   if (!st) return '';
   ensureReportCard(st);
   const scores = RC_FIELDS.map(field => st.reportCard.scores[field.scoreIndex] ?? '');
-  return [...scores, (st.reportCard.teacherDesc || '').trim(), (st.reportCard.supDesc || '').trim()].join('+');
+  return [...scores, (st.reportCard.teacherDesc || '').trim()].join('+');
 }
 
 function copyRcString(btn) {

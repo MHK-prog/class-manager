@@ -1,47 +1,30 @@
 // هربار تغییر اساسی دادی این ورژن رو ببر بالا (مثلا v2, v3)
-const CACHE_NAME = 'class-manager-v9';
+const CACHE_NAME = 'class-manager-v10';
+const APP_ROOT = self.registration.scope;
+const API_PATH = new URL('api/', APP_ROOT).pathname;
 
-const urlsToCache = [
-  '/class-manager/',
-  '/class-manager/index.html',
-  '/class-manager/manifest.json',
-  '/class-manager/css/00-base.css',
-  '/class-manager/css/01-classes.css',
-  '/class-manager/css/02-students.css',
-  '/class-manager/css/03-daily-grades.css',
-  '/class-manager/css/04-report-cards.css',
-  '/class-manager/css/05-export.css',
-  '/class-manager/css/06-session-tracker.css',
-  '/class-manager/css/base.css',
-  '/class-manager/lib/jalalidatepicker.min.css',
-  '/class-manager/lib/Vazirmatn.css',
-  '/class-manager/lib/font/Dxxo8j6PP2D_kU2muijlE8WWMmk.woff2',
-  '/class-manager/lib/font/Dxxo8j6PP2D_kU2muijlGMWWMmk.woff2',
-  '/class-manager/lib/font/Dxxo8j6PP2D_kU2muijlHcWW.woff2',
-  '/class-manager/lib/html2canvas.min.js',
-  '/class-manager/lib/jalalidatepicker.min.js',
-  '/class-manager/img/icon-192.webp',
-  '/class-manager/img/icon-512.webp',
-  '/class-manager/img/logo.webp',
-  '/class-manager/js/00_app-store.js',
-  '/class-manager/js/00_general.js',
-  '/class-manager/js/01_menu-drawer.js',
-  '/class-manager/js/02_nav-pages.js',
-  '/class-manager/js/03_classes.js',
-  '/class-manager/js/04_students.js',
-  '/class-manager/js/05_daily-grades.js',
-  '/class-manager/js/06_report-cards.js',
-  '/class-manager/js/07_table-image-output.js',
-  '/class-manager/js/08_data-backup-restore-cleanup.js',
-  '/class-manager/js/09_solar-calendar.js',
-  '/class-manager/js/10_session_tracker.js',
-  '/class-manager/js/11_export-cmm-grades.js',
-  '/class-manager/js/modal/00.5_modals.js',
-  '/class-manager/js/modal/05.5_daily-history-modal.js',
-  '/class-manager/js/modal/05.6_add-class-modal.js',
-  '/class-manager/js/modal/05.7_rename-class-modal.js',
-  '/class-manager/js/modal/05.8_delete-class-modal.js'
+const appFiles = [
+  '', 'index.html', 'manifest.json',
+  'css/00-base.css', 'css/01-classes.css', 'css/02-students.css',
+  'css/03-daily-grades.css', 'css/04-report-cards.css', 'css/05-export.css',
+  'css/06-session-tracker.css', 'css/base.css',
+  'lib/jalalidatepicker.min.css', 'lib/Vazirmatn.css',
+  'lib/font/Dxxo8j6PP2D_kU2muijlE8WWMmk.woff2',
+  'lib/font/Dxxo8j6PP2D_kU2muijlGMWWMmk.woff2',
+  'lib/font/Dxxo8j6PP2D_kU2muijlHcWW.woff2',
+  'lib/html2canvas.min.js', 'lib/jalalidatepicker.min.js',
+  'img/icon-192.webp', 'img/icon-512.webp', 'img/logo.webp',
+  'js/00_app-store.js', 'js/00_general.js', 'js/01_menu-drawer.js',
+  'js/02_nav-pages.js', 'js/03_classes.js', 'js/04_students.js',
+  'js/05_daily-grades.js', 'js/06_report-cards.js',
+  'js/07_table-image-output.js', 'js/08_data-backup-restore-cleanup.js',
+  'js/09_solar-calendar.js', 'js/10_session_tracker.js',
+  'js/11_report-card-exports.js',
+  'js/modal/00.5_modals.js', 'js/modal/05.5_daily-history-modal.js',
+  'js/modal/05.6_add-class-modal.js', 'js/modal/05.7_rename-class-modal.js',
+  'js/modal/05.8_delete-class-modal.js'
 ];
+const urlsToCache = appFiles.map(file => new URL(file, APP_ROOT).toString());
 
 // 1. نصب و جایگزینی فوری بدون معطلی (Skip Waiting)
 self.addEventListener('install', event => {
@@ -66,6 +49,9 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   // فقط درخواست‌های GET رو مدیریت کن
   if (event.request.method !== 'GET') return;
+
+  // داده‌های کلاس و نشست PHP نباید در Cache Storage ذخیره شوند.
+  if (new URL(event.request.url).origin === new URL(APP_ROOT).origin && new URL(event.request.url).pathname.startsWith(API_PATH)) return;
 
   event.respondWith(
     fetch(event.request)

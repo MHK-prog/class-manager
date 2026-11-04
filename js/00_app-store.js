@@ -1,7 +1,7 @@
 // ========================================================
 // هسته داده‌ها و ذخیره‌سازی (KISS & Clean)
 
-const APP_VERSION = '4.7.0';
+const APP_VERSION = '4.8.0';
 
 const AppStore = {
   key: 'offline_class_grades_v3',
@@ -26,11 +26,12 @@ const AppStore = {
             ...this.createStudent(st.fullName || st.name || ''),
             ...st,
             id: st.id || this.uid(),
+            fatherName: String(st.fatherName || st.father || st.parentName || ''),
+            nationalId: String(st.nationalId || st.nationalCode || st.idCode || ''),
             scores: st.scores && typeof st.scores === 'object' ? st.scores : {},
             extras: { notes: '', ...(st.extras || {}) },
             reportCard: {
-              ...this.createStudent().reportCard,
-              ...(st.reportCard || {}),
+              teacherDesc: String(st.reportCard?.teacherDesc || ''),
               scores: Array.isArray(st.reportCard?.scores)
                 ? st.reportCard.scores.slice(0, 11).concat(Array(11).fill('')).slice(0, 11)
                 : Array(11).fill('')
@@ -79,9 +80,11 @@ const AppStore = {
     return {
       id: this.uid(),
       fullName: String(name || '').trim(),
+      fatherName: '',
+      nationalId: '',
       scores: {},
       extras: { notes: '' },
-      reportCard: { scores: Array(11).fill(''), teacherDesc: '', supDesc: '' }
+      reportCard: { scores: Array(11).fill(''), teacherDesc: '' }
     };
   },
 
